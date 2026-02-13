@@ -1,7 +1,8 @@
 # Livrable-2-2026-Proejt-S3E
-&nbsp;
+
+
 Architecture du programme (livrable non évalué)
-&nbsp;
+
 Objectif : Présenter l'architecture du programme utilisé par la carte. Ce livrable ne doit pas contenir un programme finalisé mais uniquement la structure générale (fonctions, variables,...).
 &nbsp;
 Rendu de livrable :&nbsp;
