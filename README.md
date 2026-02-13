@@ -38,197 +38,217 @@ flowchart TD
 <1> Déclarations globales
 ```ccp
 // -------------------------------------------------------------
-// Bibliothèques nécessaires
+// Bibliothèques nécessaires (abstraction des modules matériels)
 // -------------------------------------------------------------
-#include <EEPROM.h>          // Gestion des paramètres sauvegardés
-#include <RTClib.h>          // Horloge temps réel (RTC)
-#include <Wire.h>            // Bus I2C
-#include <SoftwareSerial.h>  // GPS via port série logiciel
-#include <SD.h>              // Carte SD
-#include <DHT.h>             // Capteur température / humidité
-#include <Rgb_lcd.h>         // Écran LCD RGB
-#include <ChainableLED.h>    // LED RGB
-#include <BH1750.h>          // Capteur de luminosité
+IMPORT EEPROM
+IMPORT RTC
+IMPORT I2C
+IMPORT GPS
+IMPORT SD
+IMPORT Capteur_Temp_Hum
+IMPORT LCD_RGB
+IMPORT LED_RGB
+IMPORT Capteur_Luminosite
 
 // -------------------------------------------------------------
-// Modes de fonctionnement
+// Définition des modes de fonctionnement
 // -------------------------------------------------------------
-enum Mode { STANDARD, CONFIG, MAINTENANCE, ECO };
-Mode actualMod, lastMod;
+ENUM Mode = { STANDARD, CONFIG, MAINTENANCE, ECO }
+VARIABLE actualMod
+VARIABLE lastMod
 
 // -------------------------------------------------------------
-// Gestion des capteurs
+// Paramètres liés aux capteurs
 // -------------------------------------------------------------
-const int NB_CAPTEURS = 3;   // Nombre total de capteurs: température, humidité, luminosité 
-const int NB_VAL = 10;       // Taille de la moyenne glissante
+CONSTANTE NB_CAPTEURS = 3
+CONSTANTE NB_VAL = 10
 
-struct Capteur {
-    float moy_gliss[NB_VAL]; // Tableau pour moyenne glissante
-    int nb_erreur;           // Compteur d’erreurs successives
-};
+STRUCTURE Capteur
+    Tableau moy_gliss[NB_VAL]
+    Entier nb_erreur
+FIN STRUCTURE
 
-Capteur capteurs[NB_CAPTEURS];
-int ind_moy = 0;             // Index circulaire pour la moyenne glissante
-
-// -------------------------------------------------------------
-// Paramètres système (EEPROM)
-// -------------------------------------------------------------
-struct ConfigParams {
-    int LOG_INTERVAL;        // Intervalle entre mesures
-    int FILE_MAX_SIZE;       // Taille max fichier SD
-    int TIMEOUT;             // Timeout capteurs
-    int LUMIN_LOW;           // Seuil luminosité faible
-    int LUMIN_HIGH;          // Seuil luminosité forte
-    int MIN_TEMP_AIR;        // Température min valide
-    int MAX_TEMP_AIR;        // Température max valide
-};
-ConfigParams config;
+TABLEAU capteurs[NB_CAPTEURS]
+VARIABLE ind_moy = 0
 
 // -------------------------------------------------------------
-// Gestion des fichiers SD
+// Paramètres système sauvegardés
 // -------------------------------------------------------------
-File myFile;
-char nomFichier[20];
+STRUCTURE ConfigParams
+    LOG_INTERVAL
+    FILE_MAX_SIZE
+    TIMEOUT
+    LUMIN_LOW
+    LUMIN_HIGH
+    MIN_TEMP_AIR
+    MAX_TEMP_AIR
+FIN STRUCTURE
+
+VARIABLE config
 
 // -------------------------------------------------------------
-// Prototype du sous-programme de vérification des limites
+// Gestion du stockage SD
 // -------------------------------------------------------------
-String checkLimits(float value, float minVal, float maxVal);
+VARIABLE myFile
+VARIABLE nomFichier
 
+// -------------------------------------------------------------
+// Prototype : vérification des limites d’une valeur capteur
+// -------------------------------------------------------------
+FONCTION checkLimits(value, minVal, maxVal)
 ```
+Commentaire :
+Cette section définit la structure globale du système : les modules matériels utilisés, les modes de fonctionnement, les structures de données pour les capteurs et les paramètres configurables. Elle prépare également les variables nécessaires à la gestion du stockage et à la validation des mesures.
+
 <2> Initialisation (setup)
+
 ```ccp
 // -------------------------------------------------------------
-// Initialisation du système
+// Procédure d'initialisation au démarrage
 // -------------------------------------------------------------
-void setup() {
+PROCÉDURE setup()
 
-    initLED();              // LED RGB (état du système)
-    initButtons();          // Boutons poussoirs
-    initSensors();          // DHT, BH1750, etc.
-    initGPS();              // GPS via SoftwareSerial
-    initRTC();              // Horloge RTC
-    initSD();               // Carte SD
-    loadConfigEEPROM();     // Chargement des paramètres utilisateur
+    INITIALISER LED_RGB
+    INITIALISER Boutons
+    INITIALISER Capteurs
+    INITIALISER GPS
+    INITIALISER RTC
+    INITIALISER Carte_SD
 
-    actualMod = STANDARD;   // Mode par défaut
-    updateLED(actualMod);   // Mise à jour de la LED selon le mode
-}
+    CHARGER config DEPUIS EEPROM
+
+    actualMod ← STANDARD
+    METTRE_A_JOUR LED_SELON(actualMod)
+
+FIN PROCÉDURE
 ```
+Commentaire :
+Cette procédure est exécutée une seule fois au démarrage. Elle initialise tous les modules matériels et charge la configuration sauvegardée. Le système démarre en mode STANDARD.
+
 <3> Changement de modes (loop)
 ```ccp
 // -------------------------------------------------------------
-// Boucle principale : machine à états
+// Boucle principale : gestion des modes
 // -------------------------------------------------------------
-void loop() {
+PROCÉDURE loop()
 
-    handleButtons();  // Détection des appuis courts / longs
+    ANALYSER Boutons
 
-    switch(actualMod) {
+    SELON actualMod FAIRE
 
-        case STANDARD:
-            collectData(config.LOG_INTERVAL);
-            break;
+        CAS STANDARD :
+            collectData(config.LOG_INTERVAL)
 
-        case CONFIG:
-            processSerialCommands();
-            break;
+        CAS CONFIG :
+            TRAITER Commandes_Série
 
-        case MAINTENANCE:
-            displayMaintenance();
-            break;
+        CAS MAINTENANCE :
+            AFFICHER Données_Directes
 
-        case ECO:
-            collectData(config.LOG_INTERVAL * 2);
-            break;
-    }
-}
+        CAS ECO :
+            collectData(config.LOG_INTERVAL × 2)
+
+    FIN SELON
+
+FIN PROCÉDURE
 ```
+Commentaire :
+La boucle principale implémente la machine à états. En fonction du mode actif, le comportement du système change dynamiquement.
+
 <4> Lecture des capteurs (avec pointeurs)
 ```ccp
 // -------------------------------------------------------------
-// Lecture générique des capteurs via pointeurs
+// Lecture générique de l’ensemble des capteurs
 // -------------------------------------------------------------
-```ccp
-void Lecture(float* tab_val, int* erreurs) {
+PROCÉDURE Lecture(tab_val, erreurs)
 
-    float mesure;
-    bool erreur;
+    POUR i DE 0 À NB_CAPTEURS - 1 FAIRE
 
-    for (int i = 0; i < NB_CAPTEURS; i++) {
+        mesure ← LIRE_Capteur(i)
 
-        mesure = 0;
+        SI erreur DÉTECTÉE ALORS
+            erreurs[i] ← erreurs[i] + 1
+        SINON
+            Add_Val(tab_val, mesure)
+        FIN SI
 
-        erreur = Lecture_capteur(&mesure, i);
+    FIN POUR
 
-        if (erreur) {
-            erreurs[i]++;
-        } else {
-            Add_Val(tab_val, mesure);
-        }
-    }
-}
+FIN PROCÉDURE
 ```
+Commentaire :
+Cette procédure centralise la lecture des capteurs. En cas d’erreur, un compteur est incrémenté. Sinon, la valeur valide est ajoutée dans la mémoire de moyenne glissante.
+
 <5> Moyenne glissante
 ```ccp
 // -------------------------------------------------------------
-// Ajout d’une valeur dans la moyenne glissante
+// Gestion du tampon circulaire pour moyenne glissante
 // -------------------------------------------------------------
-void Add_Val(float* tab_moy, float val) {
+PROCÉDURE Add_Val(tab_moy, val)
 
-    tab_moy[ind_moy] = val;
+    tab_moy[ind_moy] ← val
 
-    if (ind_moy >= NB_VAL - 1)
-        ind_moy = 0;
-    else
-        ind_moy++;
-}
+    SI ind_moy ≥ NB_VAL - 1 ALORS
+        ind_moy ← 0
+    SINON
+        ind_moy ← ind_moy + 1
+    FIN SI
+
+FIN PROCÉDURE
 ```
-<6> Ajout du sous‑programme des limites des capteurs : checkLimits()
+Commentaire :
+Les mesures sont stockées dans un tableau circulaire afin de lisser les variations et conserver uniquement les valeurs récentes.
+
+<6> Vérification des limites : checkLimits()
 ```ccp
 // -------------------------------------------------------------
-// Vérification des limites d’un capteur
+// Validation d’une mesure selon les seuils définis
 // -------------------------------------------------------------
-String checkLimits(float value, float minVal, float maxVal) {
+FONCTION checkLimits(value, minVal, maxVal)
 
-    if (isnan(value)) {
-        return "NA";   // Capteur non répondant
-    }
+    SI value est INVALIDE ALORS
+        RETOURNER "NA"
 
-    if (value < minVal || value > maxVal) {
-        return "Valeur Hors-Limite";
-    }
+    SI value < minVal OU value > maxVal ALORS
+        RETOURNER "Valeur Hors-Limite"
 
-    return String(value);
-}
+    RETOURNER value_convertie_en_texte
+
+FIN FONCTION
 ```
+Commentaire :
+Cette fonction garantit que seules les valeurs cohérentes sont exploitées. Elle filtre les capteurs non répondants et les mesures hors intervalle.
+
 <7> Collecte + enregistrement SD
 ```ccp
 // -------------------------------------------------------------
-// Collecte des données + écriture sur SD
+// Acquisition des données et stockage périodique
 // -------------------------------------------------------------
-void collectData(int interval) {
+PROCÉDURE collectData(interval)
 
-    if (millis() - lastMeasure >= interval) {
+    SI Temps_Écoulé ≥ interval ALORS
 
-        float temp = collectTemperature(); // Température
-        float hum  = collectHumidity();    // Humidité
-        int lum    = collectLuminosity();  // Luminosité
-        String gps = getGPSData();         // Données GPS
+        temp ← Lire_Température()
+        hum  ← Lire_Humidité()
+        lum  ← Lire_Luminosité()
+        gps  ← Lire_GPS()
 
-        // Vérification des limites
-        String tempStr = checkLimits(temp, config.MIN_TEMP_AIR, config.MAX_TEMP_AIR);
-        String humStr  = checkLimits(hum, 0, 100);
-        String lumStr  = checkLimits(lum, config.LUMIN_LOW, config.LUMIN_HIGH);
+        tempStr ← checkLimits(temp, MIN_TEMP_AIR, MAX_TEMP_AIR)
+        humStr  ← checkLimits(hum, 0, 100)
+        lumStr  ← checkLimits(lum, LUMIN_LOW, LUMIN_HIGH)
 
-        // Écriture sur SD
-        writeSD(tempStr, humStr, lumStr, gps);
+        ÉCRIRE tempStr, humStr, lumStr, gps SUR Carte_SD
 
-        lastMeasure = millis();
-    }
-}
+        METTRE_À_JOUR Timer
+
+    FIN SI
+
+FIN PROCÉDURE
 ```
+Commentaire :
+Cette procédure constitue le cœur fonctionnel du système. Elle réalise l’acquisition des données, vérifie leur validité, puis les enregistre sur la carte SD à intervalles réguliers.
 
+## Diagrammes détaillants le fcontionnement du système : 
 ```mermaid
 stateDiagram-v2
 
