@@ -36,11 +36,10 @@ flowchart TD
     end
 ```
 ```ccp
-
 1. Déclarations globales
 
 // -------------------------------------------------------------
-// 📚 Bibliothèques nécessaires
+// Bibliothèques nécessaires
 // -------------------------------------------------------------
 #include <EEPROM.h>          // Gestion des paramètres sauvegardés
 #include <RTClib.h>          // Horloge temps réel (RTC)
@@ -53,13 +52,13 @@ flowchart TD
 #include <BH1750.h>          // Capteur de luminosité
 
 // -------------------------------------------------------------
-// 🔘 Modes de fonctionnement
+// Modes de fonctionnement
 // -------------------------------------------------------------
 enum Mode { STANDARD, CONFIG, MAINTENANCE, ECO };
 Mode actualMod, lastMod;
 
 // -------------------------------------------------------------
-// 🌡️ Gestion des capteurs
+// Gestion des capteurs
 // -------------------------------------------------------------
 const int NB_CAPTEURS = 4;   // Nombre total de capteurs
 const int NB_VAL = 10;       // Taille de la moyenne glissante
@@ -73,7 +72,7 @@ Capteur capteurs[NB_CAPTEURS];
 int ind_moy = 0;             // Index circulaire pour la moyenne glissante
 
 // -------------------------------------------------------------
-// ⚙️ Paramètres système (EEPROM)
+// Paramètres système (EEPROM)
 // -------------------------------------------------------------
 struct ConfigParams {
     int LOG_INTERVAL;        // Intervalle entre mesures
@@ -87,7 +86,7 @@ struct ConfigParams {
 ConfigParams config;
 
 // -------------------------------------------------------------
-// 💾 Gestion des fichiers SD
+// Gestion des fichiers SD
 // -------------------------------------------------------------
 File myFile;
 char nomFichier[20];
@@ -97,7 +96,7 @@ char nomFichier[20];
 
 
 // -------------------------------------------------------------
-// 🚀 Initialisation du système
+// Initialisation du système
 // -------------------------------------------------------------
 void setup() {
 
@@ -118,7 +117,7 @@ void setup() {
 
 
 // -------------------------------------------------------------
-// 🔄 Boucle principale : machine à états
+// Boucle principale : machine à états
 // -------------------------------------------------------------
 void loop() {
 
@@ -153,7 +152,7 @@ void loop() {
 
 
 // -------------------------------------------------------------
-// 📡 Lecture générique des capteurs via pointeurs
+// Lecture générique des capteurs via pointeurs
 // -------------------------------------------------------------
 void Lecture(float* tab_val, int* erreurs) {
 
@@ -180,7 +179,7 @@ void Lecture(float* tab_val, int* erreurs) {
 
 
 // -------------------------------------------------------------
-// 📊 Ajout d’une valeur dans la moyenne glissante
+// Ajout d’une valeur dans la moyenne glissante
 // -------------------------------------------------------------
 void Add_Val(float* tab_moy, float val) {
 
@@ -198,7 +197,7 @@ void Add_Val(float* tab_moy, float val) {
 
 
 // -------------------------------------------------------------
-// 💾 Collecte des données + écriture sur SD
+// Collecte des données + écriture sur SD
 // -------------------------------------------------------------
 void collectData(int interval) {
 
@@ -220,7 +219,7 @@ void collectData(int interval) {
 
 
 // -------------------------------------------------------------
-// 🔘 Changement de mode
+// Changement de mode
 // -------------------------------------------------------------
 void changeMode(Mode newMode) {
 
@@ -228,7 +227,6 @@ void changeMode(Mode newMode) {
     actualMod = newMode;     // Nouveau mode actif
 
     updateLED(newMode);      // Mise à jour de la LED RGB
-}
 }
 ```
 
