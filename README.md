@@ -239,8 +239,7 @@ void changeMode(Mode newMode) {
 stateDiagram-v2
 
     [*] --> CONFIG : BTN_BLUE == PRESSED_AT_BOOT
-    %% Si le bouton bleu est pressé au démarrage,
-    %% le système entre en mode configuration
+    %% Si le bouton bleu est pressé démarrage du mode configuration
 
     state CONFIG {
 
