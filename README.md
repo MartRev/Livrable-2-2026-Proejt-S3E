@@ -35,5 +35,54 @@ flowchart TD
         H --> J[Mode Économique]
     end
 ```
+```mermaid
 
+flowchart TD
+
+    A([setup()]) --> B[initLibraries()]
+    B --> C[initSensors()]
+    B --> D[initGPS()]
+    B --> E[initRTC()]
+    B --> F[initSD()]
+    B --> G[loadConfig()]
+
+    H([loop()]) --> I[handleButtons()]
+    I --> J{Mode}
+
+    J -->|STANDARD| K[collectData()]
+    J -->|CONFIG| L[processSerialCommands()]
+    J -->|MAINTENANCE| M[displayMaintenance()]
+    J -->|ECO| N[ecoCollect()]
+
+    K --> O[writeSD()]
+    K --> P[Lecture capteurs]
+    P --> Q[Add_Val()]
+```
+```mermaid
+
+flowchart TD
+
+    A[Vert fixe] --> S[Standard]
+    B[Jaune fixe] --> C[Configuration]
+    D[Bleu fixe] --> E[Économique]
+    F[Orange fixe] --> M[Maintenance]
+
+    H[Rouge/Bleu 1Hz] --> I[Erreur RTC]
+    J[Rouge/Jaune 1Hz] --> K[Erreur GPS]
+    L[Rouge/Vert 1Hz] --> N[Erreur capteur]
+    O[Rouge/Vert (vert x2)] --> P[Capteur incohérent]
+    Q[Rouge/Blanc 1Hz] --> R[SD pleine]
+    S[Rouge/Blanc (blanc x2)] --> T[Erreur écriture SD]
+
+flowchart LR
+
+    S[Standard] -->|Bouton rouge 5s| M[Maintenance]
+    S -->|Bouton vert 5s| E[Économique]
+    S -->|Bouton rouge au démarrage| C[Configuration]
+
+    M -->|Bouton rouge 5s| S
+    E -->|Bouton rouge 5s| S
+
+    C -->|30 min inactivité| S
+```
 
