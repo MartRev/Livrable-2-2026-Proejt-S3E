@@ -1,4 +1,4 @@
-# Livrable-2-2026-Proejt-S3E
+# Livrable-2-2026-Projet-S3E
 
 Architecture du programme 
 
