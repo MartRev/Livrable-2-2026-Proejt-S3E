@@ -284,15 +284,12 @@ stateDiagram-v2
 
     [*] --> MAINTENANCE
     %% Le système entre en mode maintenance
-    %% depuis un autre mode (STANDARD ou ECONOMIE)
 
     state MAINTENANCE {
 
         [*] --> INIT_MAINT
 
-        %% ======================================
         %% INITIALISATION DU MODE
-        %% ======================================
 
         INIT_MAINT : MODE = MAINTENANCE
         INIT_MAINT : SD_WRITE_ENABLE = FALSE
@@ -303,29 +300,22 @@ stateDiagram-v2
 
         INIT_MAINT --> RUN_MAINT
 
-        %% ======================================
-        %% BOUCLE PRINCIPALE DU MODE
-        %% ======================================
-
         RUN_MAINT : SENSOR_DATA = ReadSensors()
-        RUN_MAINT : UART_CMD = ReadUART()
-        %% Les capteurs continuent de mesurer
-        %% On lit en permanence les commandes série
+        RUN_MAINT : SendToUART(SENSOR_DATA)
+        %% Les capteurs mesure et les données sont affiché en temps réel sur UART
+        %% Aucune écriture sur la carte SD
 
         RUN_MAINT --> SEND_DATA : UART_CMD == "READ"
         %% Si la commande READ est reçue,
         %% on envoie les données via UART
 
         RUN_MAINT --> CHECK_EXIT : BTN_RED == LONG_PRESS
-        %% Si appui long bouton rouge,
-        %% on prépare la sortie du mode maintenance
+        %% Si appui longtemps bouton rouge, mode maintenance activé
 
         RUN_MAINT --> RUN_MAINT : ELSE
         %% Sinon, on continue la boucle
 
-        %% ======================================
         %% ENVOI DES DONNÉES
-        %% ======================================
 
         SEND_DATA : SendToUART(SENSOR_DATA)
         %% Transmission directe des données
@@ -333,17 +323,13 @@ stateDiagram-v2
 
         SEND_DATA --> RUN_MAINT
 
-        %% ======================================
-        %% SORTIE DU MODE
-        %% ======================================
+        
 
         CHECK_EXIT --> RETURN_MODE
         %% On retourne vers le mode précédent
     }
 
-    %% ======================================
-    %% RETOUR AU MODE PRÉCÉDENT
-    %% ======================================
+    
 
     RETURN_MODE --> STANDARD : PREVIOUS_MODE == STANDARD
     RETURN_MODE --> ECONOMIE : PREVIOUS_MODE == ECONOMIE
