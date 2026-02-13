@@ -260,3 +260,34 @@ stateDiagram-v2
         CHECK_TIMEOUT --> WAIT_CMD : ELSE
     }
 ```
+```mermaid
+stateDiagram-v2
+
+    [*] --> MAINTENANCE
+
+    state MAINTENANCE {
+
+        [*] --> INIT_MAINT
+
+        INIT_MAINT : MODE = MAINTENANCE
+        INIT_MAINT : SD_WRITE_ENABLE = FALSE
+        INIT_MAINT : EnableUART()
+
+        INIT_MAINT --> RUN_MAINT
+
+        RUN_MAINT : SENSOR_DATA = ReadSensors()
+        RUN_MAINT : UART_CMD = ReadUART()
+
+        RUN_MAINT --> SEND_DATA : UART_CMD == "READ"
+        RUN_MAINT --> CHECK_EXIT : BTN_RED == LONG_PRESS
+        RUN_MAINT --> RUN_MAINT : ELSE
+
+        SEND_DATA : SendToUART(SENSOR_DATA)
+        SEND_DATA --> RUN_MAINT
+
+        CHECK_EXIT --> RETURN_MODE
+    }
+
+    RETURN_MODE --> STANDARD : PREVIOUS_MODE == STANDARD
+    RETURN_MODE --> ECONOMIE : PREVIOUS_MODE == ECONOMIE
+```
