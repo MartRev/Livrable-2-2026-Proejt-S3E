@@ -23,7 +23,7 @@ Rendu de livrable :
   -ce quel'on doit faire
   
 '''mermaid
-flowchart LR
+
     %% Acteurs
     Utilisateur((Utilisateur))
     Technicien((Technicien))
