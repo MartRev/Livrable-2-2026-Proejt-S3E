@@ -35,11 +35,11 @@ flowchart TD
         H --> J[Mode Économique]
     end
 ```
-1. Déclarations globales
-```ccp
+<1> Déclarations globales
 // -------------------------------------------------------------
 // Bibliothèques nécessaires
 // -------------------------------------------------------------
+```ccp
 #include <EEPROM.h>          // Gestion des paramètres sauvegardés
 #include <RTClib.h>          // Horloge temps réel (RTC)
 #include <Wire.h>            // Bus I2C
@@ -59,7 +59,7 @@ Mode actualMod, lastMod;
 // -------------------------------------------------------------
 // Gestion des capteurs
 // -------------------------------------------------------------
-const int NB_CAPTEURS = 4;   // Nombre total de capteurs
+const int NB_CAPTEURS = 3;   // Nombre total de capteurs: température, humidité, luminosité 
 const int NB_VAL = 10;       // Taille de la moyenne glissante
 
 struct Capteur {
@@ -89,15 +89,18 @@ ConfigParams config;
 // -------------------------------------------------------------
 File myFile;
 char nomFichier[20];
+
+// -------------------------------------------------------------
+// Prototype du sous-programme de vérification des limites
+// -------------------------------------------------------------
+String checkLimits(float value, float minVal, float maxVal);
+
 ```
-
-2. Initialisation (setup)
-
-```ccp
-
+<2> Initialisation (setup)
 // -------------------------------------------------------------
 // Initialisation du système
 // -------------------------------------------------------------
+```ccp
 void setup() {
 
     initLED();              // LED RGB (état du système)
@@ -111,15 +114,12 @@ void setup() {
     actualMod = STANDARD;   // Mode par défaut
     updateLED(actualMod);   // Mise à jour de la LED selon le mode
 }
-
 ```
-3. Machine à états (loop)
-
-```ccp
-
+<3> Changement de modes (loop)
 // -------------------------------------------------------------
 // Boucle principale : machine à états
 // -------------------------------------------------------------
+```ccp
 void loop() {
 
     handleButtons();  // Détection des appuis courts / longs
@@ -127,35 +127,28 @@ void loop() {
     switch(actualMod) {
 
         case STANDARD:
-            // Mode normal : acquisition régulière
             collectData(config.LOG_INTERVAL);
             break;
 
         case CONFIG:
-            // Mode configuration via interface série
             processSerialCommands();
             break;
 
         case MAINTENANCE:
-            // Mode maintenance : affichage direct, SD désactivée
             displayMaintenance();
             break;
 
         case ECO:
-            // Mode économie : fréquence divisée par 2
             collectData(config.LOG_INTERVAL * 2);
             break;
     }
 }
-
 ```
-4. Lecture des capteurs (avec pointeurs)
-```ccp
-
-
+<4> Lecture des capteurs (avec pointeurs)
 // -------------------------------------------------------------
 // Lecture générique des capteurs via pointeurs
 // -------------------------------------------------------------
+```ccp
 void Lecture(float* tab_val, int* erreurs) {
 
     float mesure;
@@ -165,73 +158,73 @@ void Lecture(float* tab_val, int* erreurs) {
 
         mesure = 0;
 
-        // Lecture du capteur i (renvoie true si erreur)
         erreur = Lecture_capteur(&mesure, i);
 
         if (erreur) {
-            erreurs[i]++;          // Incrémentation du compteur d’erreurs
+            erreurs[i]++;
         } else {
-            Add_Val(tab_val, mesure); // Ajout dans la moyenne glissante
+            Add_Val(tab_val, mesure);
         }
     }
 }
 ```
-
-5. Moyenne glissante
-
-```ccp
-
+<5> Moyenne glissante
 // -------------------------------------------------------------
 // Ajout d’une valeur dans la moyenne glissante
 // -------------------------------------------------------------
+```ccp
 void Add_Val(float* tab_moy, float val) {
 
-    tab_moy[ind_moy] = val;   // Ajout à l’index courant
+    tab_moy[ind_moy] = val;
 
-    // Index circulaire
     if (ind_moy >= NB_VAL - 1)
         ind_moy = 0;
     else
         ind_moy++;
 }
-
 ```
-6. Collecte + enregistrement SD
-
+<6> Ajout du sous‑programme des limites des capteurs : checkLimits()
+// -------------------------------------------------------------
+// Vérification des limites d’un capteur
+// -------------------------------------------------------------
 ```ccp
+String checkLimits(float value, float minVal, float maxVal) {
 
+    if (isnan(value)) {
+        return "NA";   // Capteur non répondant
+    }
+
+    if (value < minVal || value > maxVal) {
+        return "Valeur Hors-Limite";
+    }
+
+    return String(value);
+}
+```
+<7> Collecte + enregistrement SD
 // -------------------------------------------------------------
 // Collecte des données + écriture sur SD
 // -------------------------------------------------------------
+```ccp
 void collectData(int interval) {
 
     if (millis() - lastMeasure >= interval) {
 
-        float temp = collectTemperature();   // Température
-        float hum  = collectHumidity();      // Humidité
-        int lum    = collectLuminosity();    // Luminosité
-        String gps = getGPSData();           // Données GPS
+        float temp = collectTemperature(); // Température
+        float hum  = collectHumidity();    // Humidité
+        int lum    = collectLuminosity();  // Luminosité
+        String gps = getGPSData();         // Données GPS
 
-        writeSD(temp, hum, lum, gps);        // Écriture sur SD
+        // Vérification des limites
+        String tempStr = checkLimits(temp, config.MIN_TEMP_AIR, config.MAX_TEMP_AIR);
+        String humStr  = checkLimits(hum, 0, 100);
+        String lumStr  = checkLimits(lum, config.LUMIN_LOW, config.LUMIN_HIGH);
 
-        lastMeasure = millis();              // Mise à jour du timer
+        // Écriture sur SD
+        writeSD(tempStr, humStr, lumStr, gps);
+
+        lastMeasure = millis();
     }
-}
-```
-
-7. Gestion des modes
-
-```ccp
-
-// -------------------------------------------------------------
-// Changement de mode
-// -------------------------------------------------------------
-void changeMode(Mode newMode) {
-
-    lastMod = actualMod;     // Sauvegarde de l’ancien mode
-    actualMod = newMode;     // Nouveau mode actif
-
-    updateLED(newMode);      // Mise à jour de la LED RGB
 }
 ```
 
