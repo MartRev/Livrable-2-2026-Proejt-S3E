@@ -232,7 +232,7 @@ FIN PROCÉDURE
 Commentaire :
 Cette procédure constitue le cœur fonctionnel du système. Elle réalise l’acquisition des données, vérifie leur validité, puis les enregistre sur la carte SD à intervalles réguliers.
 
-## Diagrammes détaillants le fcontionnement du système : 
+## Diagrammes détaillants le fonctionnement du système (les commentaires des diagrammes sont dans "code") : 
 ## Mode Configuration
 ```mermaid
 stateDiagram-v2
