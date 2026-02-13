@@ -1,4 +1,4 @@
-##Station Météo – Projet Arduino / Grove
+## Station Météo – Projet Arduino / Grove
 
 ## Présentation du projet
 L'Agence Internationale pour la Vigilance Météorologique (AIVM) se lance dans un projet ambitieux : déployer dans les océans des navires de surveillance équipés de stations météo embarquées chargées de mesurer les paramètres influant sur la formation de cyclones ou autres catastrophes naturelles.
