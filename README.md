@@ -6,12 +6,6 @@ L'Agence Internationale pour la Vigilance Météorologique (AIVM) se lance dans 
 Un grand nombre de sociétés utilisant des transports navals ont accepté d'équiper leurs bateaux avec ces stations embarquées. En revanche, ces dernières devront être simples et efficaces et pilotables par un des membres de l'équipage (une documentation technique utilisateur sera mise à disposition).
 
 
-- Capteurs environnementaux (température, humidité, pression…)
-- Module GPS v1.2
-- Horloge RTC v1.2
-- Stockage sur carte SD
-- Modes utilisateur (standard, configuration, maintenance, économie)
-- Gestion d’erreurs et boutons poussoirs
 
 ---
 
