@@ -176,3 +176,32 @@ void changeMode(Mode newMode) {
     updateLED(newMode);
 }
 
+```mermaid
+stateDiagram-v2
+
+    [*] --> CONFIG : BTN_BLUE == PRESSED_AT_BOOT
+
+    state CONFIG {
+
+        [*] --> INIT_CONFIG
+
+        INIT_CONFIG : MODE = CONFIG
+        INIT_CONFIG : DisableSensors()
+        INIT_CONFIG : INACTIVITY_TIMER = 0
+
+        INIT_CONFIG --> WAIT_CMD
+
+        WAIT_CMD : UART_CMD = ReadUART()
+
+        WAIT_CMD --> PROCESS_CMD : UART_CMD != 0
+        WAIT_CMD --> CHECK_TIMEOUT : UART_CMD == 0
+
+        PROCESS_CMD : Update(EEPROM_PARAM)
+        PROCESS_CMD : Reset(INACTIVITY_TIMER)
+
+        PROCESS_CMD --> WAIT_CMD
+
+        CHECK_TIMEOUT --> STANDARD : INACTIVITY_TIMER >= 30min
+        CHECK_TIMEOUT --> WAIT_CMD : ELSE
+    }
+```
