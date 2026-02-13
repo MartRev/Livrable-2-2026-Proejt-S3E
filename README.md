@@ -137,3 +137,24 @@ flowchart TD
     D7 -- Oui --> Economique
     D7 -- Non --> Maintenance_E
 ```
+```mermaid
+flowchart TD
+
+    Start([Système en fonctionnement])
+
+    Start --> Mode{Mode actif ?}
+
+    Mode -->|Standard| LED_Standard[LED verte continue]
+    Mode -->|Configuration| LED_Config[LED jaune continue]
+    Mode -->|Economique| LED_Eco[LED bleue continue]
+    Mode -->|Maintenance| LED_Maint[LED orange continue]
+
+    Start --> Erreur{Erreur détectée ?}
+
+    Erreur -->|RTC| LED_RTC[LED rouge/bleue clignotante 1Hz]
+    Erreur -->|GPS| LED_GPS[LED rouge/jaune clignotante 1Hz]
+    Erreur -->|Capteur| LED_CAPT[LED rouge/verte clignotante 1Hz]
+    Erreur -->|Données incohérentes| LED_INCOH[LED rouge/verte vert plus long]
+    Erreur -->|SD pleine| LED_SD_FULL[LED rouge/blanche clignotante 1Hz]
+    Erreur -->|Erreur SD| LED_SD_ERR[LED rouge/blanche blanc plus long]
+```
