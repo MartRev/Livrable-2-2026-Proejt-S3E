@@ -22,8 +22,8 @@ Rendu de livrable :
   
   -ce quel'on doit faire
   
-'''mermaid
-
+```mermaid
+flowchart LR
     %% Acteurs
     Utilisateur((Utilisateur))
     Technicien((Technicien))
@@ -64,7 +64,6 @@ Rendu de livrable :
     Technicien --> UC10
     Technicien --> UC14
 
-
     %% Liens Capteurs et modules
     Capteurs --> UC2
     RTC --> UC3
@@ -95,5 +94,4 @@ Rendu de livrable :
     UC14 --> UC5
     UC14 --> UC8
     UC14 --> UC11
-'''
-
+'''   
