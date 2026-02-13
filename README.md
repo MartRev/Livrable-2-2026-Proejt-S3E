@@ -36,10 +36,10 @@ flowchart TD
     end
 ```
 <1> Déclarations globales
+```ccp
 // -------------------------------------------------------------
 // Bibliothèques nécessaires
 // -------------------------------------------------------------
-```ccp
 #include <EEPROM.h>          // Gestion des paramètres sauvegardés
 #include <RTClib.h>          // Horloge temps réel (RTC)
 #include <Wire.h>            // Bus I2C
@@ -97,10 +97,10 @@ String checkLimits(float value, float minVal, float maxVal);
 
 ```
 <2> Initialisation (setup)
+```ccp
 // -------------------------------------------------------------
 // Initialisation du système
 // -------------------------------------------------------------
-```ccp
 void setup() {
 
     initLED();              // LED RGB (état du système)
@@ -116,10 +116,10 @@ void setup() {
 }
 ```
 <3> Changement de modes (loop)
+```ccp
 // -------------------------------------------------------------
 // Boucle principale : machine à états
 // -------------------------------------------------------------
-```ccp
 void loop() {
 
     handleButtons();  // Détection des appuis courts / longs
@@ -145,6 +145,7 @@ void loop() {
 }
 ```
 <4> Lecture des capteurs (avec pointeurs)
+```ccp
 // -------------------------------------------------------------
 // Lecture générique des capteurs via pointeurs
 // -------------------------------------------------------------
@@ -169,10 +170,10 @@ void Lecture(float* tab_val, int* erreurs) {
 }
 ```
 <5> Moyenne glissante
+```ccp
 // -------------------------------------------------------------
 // Ajout d’une valeur dans la moyenne glissante
 // -------------------------------------------------------------
-```ccp
 void Add_Val(float* tab_moy, float val) {
 
     tab_moy[ind_moy] = val;
@@ -184,10 +185,10 @@ void Add_Val(float* tab_moy, float val) {
 }
 ```
 <6> Ajout du sous‑programme des limites des capteurs : checkLimits()
+```ccp
 // -------------------------------------------------------------
 // Vérification des limites d’un capteur
 // -------------------------------------------------------------
-```ccp
 String checkLimits(float value, float minVal, float maxVal) {
 
     if (isnan(value)) {
@@ -202,10 +203,10 @@ String checkLimits(float value, float minVal, float maxVal) {
 }
 ```
 <7> Collecte + enregistrement SD
+```ccp
 // -------------------------------------------------------------
 // Collecte des données + écriture sur SD
 // -------------------------------------------------------------
-```ccp
 void collectData(int interval) {
 
     if (millis() - lastMeasure >= interval) {
