@@ -351,6 +351,12 @@ stateDiagram-v2
 
 ```
 ```mermaid
+
+
+%% MODE STANDARD
+
+%% Ce diagramme initialise les capteurs et interface, puis toutes les 10 secondes lit chaque capteur avec un timeout, il construit une ligne horodatée, l’écrit sur la carte SD avec gestion d’erreurs, effectue une rotation de fichier si nécessaire, tout en permettant à l’utilisateur de changer de mode (Standard/Eco/Maintenance).
+
 flowchart TD
     %% on initialise 
     START([START])
