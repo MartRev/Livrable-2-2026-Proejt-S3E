@@ -239,10 +239,6 @@ stateDiagram-v2
 
         [*] --> INIT_CONFIG
 
-        %% ============================
-        %% INITIALISATION DU MODE
-        %% ============================
-
         INIT_CONFIG : MODE = CONFIG
         INIT_CONFIG : DisableSensors()
         INIT_CONFIG : INACTIVITY_TIMER = 0
@@ -251,9 +247,7 @@ stateDiagram-v2
 
         INIT_CONFIG --> WAIT_CMD
 
-        %% ============================
         %% ATTENTE DE COMMANDE UART
-        %% ============================
 
         WAIT_CMD : UART_CMD = ReadUART()
         %% Lecture d'une commande depuis la console série
@@ -264,9 +258,7 @@ stateDiagram-v2
         WAIT_CMD --> CHECK_TIMEOUT : UART_CMD == 0
         %% Sinon, on vérifie le timer d'inactivité
 
-        %% ============================
         %% TRAITEMENT DES COMMANDES
-        %% ============================
 
         PROCESS_CMD : Update(EEPROM_PARAM)
         PROCESS_CMD : Reset(INACTIVITY_TIMER)
@@ -276,16 +268,13 @@ stateDiagram-v2
         PROCESS_CMD --> WAIT_CMD
         %% Retour en attente d'une nouvelle commande
 
-        %% ============================
         %% GESTION DU TIMEOUT
-        %% ============================
 
         CHECK_TIMEOUT --> STANDARD : INACTIVITY_TIMER >= 30min
-        %% Si aucune activité pendant 30 minutes,
-        %% retour automatique au mode standard
+        %% Si aucune activité pendant 30 minutes, retour automatique au mode standard
 
         CHECK_TIMEOUT --> WAIT_CMD : ELSE
-        %% Sinon, on continue à attendre une commande
+        %% Sinon on continue à attendre une commande
     }
 ```
 ```mermaid
