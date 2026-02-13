@@ -1,27 +1,26 @@
-# Livrable-2-2026-Projet-S3E
+# 🌦️ Station Météo – Projet Arduino / Grove
 
-Architecture du programme 
+## 📌 Présentation du projet
+Ce projet consiste à développer une station météorologique autonome intégrant :
+- Capteurs environnementaux (température, humidité, pression…)
+- Module GPS v1.2
+- Horloge RTC v1.2
+- Stockage sur carte SD
+- Modes utilisateur (standard, configuration, maintenance, économie)
+- Gestion d’erreurs et boutons poussoirs
 
-Objectif : Présenter l'architecture du programme utilisé par la carte. Ce livrable ne doit pas contenir un programme finalisé mais uniquement la structure générale (fonctions, variables,...).
+---
 
-Rendu de livrable :
+## 🎯 Objectifs
+- Acquérir et horodater des données environnementales
+- Enregistrer les données sur carte SD
+- Permettre la configuration via interface série
+- Assurer un fonctionnement robuste et autonome
 
-  -travaille structure code
-  
-  -rendre une architecture "peuso-code" qui représentera la structure du programme avec nitamment des diagrammes et schéma
-  
-  "représenter code "readme" en .mv markdown"
-  
-  "on peut y insérer des schéma avec mermaid"
-  
-  -faire architecture avec mermaid, et donner un code readme
-  
-  -code avec schéma à l'intérieur
-  
-  -créer un repo GitHub pour héberger le code
-  
-  -ce quel'on doit faire
-  
+---
+
+## 🧩 Architecture générale du système
+
 ```mermaid
 flowchart LR
     %% Acteurs
@@ -94,4 +93,3 @@ flowchart LR
     UC14 --> UC5
     UC14 --> UC8
     UC14 --> UC11
-'''   
