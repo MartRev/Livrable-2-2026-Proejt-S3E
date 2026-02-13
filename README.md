@@ -17,23 +17,26 @@ Un grand nombre de sociétés utilisant des transports navals ont accepté d'éq
 
 ---
 
-## Architecture générale du système
+## Structure générale du programme : 
 
-```mermaid
-flowchart TD
+#include <EEPROM.h>
+#include <RTClib.h>
+#include <Wire.h>
+#include <SoftwareSerial.h>
+#include <SD.h>
+#include <DHT.h>
+#include <Rgb_lcd.h>
+#include <ChainableLED.h>
+#include <BH1750.h>
 
-    subgraph System["Architecture Fonctionnelle"]
-        A[Lecture capteurs] --> B[Horodatage RTC]
-        B --> C[Enregistrement SD]
-        A --> D[GPS]
-        D --> C
+#include "modes.h"
+#include "sensors.h"
+#include "gps.h"
+#include "rtc.h"
+#include "sd_manager.h"
+#include "buttons.h"
+#include "config.h"
+#include "led.h"
+#include "utils.h"
 
-        E[Interface Série] --> F[Mode Configuration]
-        G[Boutons poussoirs] --> H[Machine à états]
-        H --> A
-        H --> F
-        H --> I[Mode Maintenance]
-        H --> J[Mode Économique]
-    end
-```
 
