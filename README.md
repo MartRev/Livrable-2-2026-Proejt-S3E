@@ -20,4 +20,20 @@ Un grand nombre de sociétés utilisant des transports navals ont accepté d'éq
 ## Architecture générale du système
 
 ```mermaid
+flowchart TD
+
+    subgraph System["Architecture Fonctionnelle"]
+        A[Lecture capteurs] --> B[Horodatage RTC]
+        B --> C[Enregistrement SD]
+        A --> D[GPS]
+        D --> C
+
+        E[Interface Série] --> F[Mode Configuration]
+        G[Boutons poussoirs] --> H[Machine à états]
+        H --> A
+        H --> F
+        H --> I[Mode Maintenance]
+        H --> J[Mode Économique]
+    end
+```
 
