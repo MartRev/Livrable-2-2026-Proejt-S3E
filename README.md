@@ -291,3 +291,46 @@ stateDiagram-v2
     RETURN_MODE --> STANDARD : PREVIOUS_MODE == STANDARD
     RETURN_MODE --> ECONOMIE : PREVIOUS_MODE == ECONOMIE
 ```
+```mermaid
+flowchart TD
+    START([START])
+
+    START --> MODE[MODE = STANDARD]
+    MODE --> INIT[INIT_SENSORS]
+    INIT --> LED[LED = GREEN]
+
+    LED --> LOOP{{t >= LOG_INTERVAL}}
+
+    LOOP --> READ[READ_SENSOR_i]
+
+    READ --> RESP{RESP_TIME < TIMEOUT}
+    RESP -- no --> SET_NA[VALUE_i = NA]
+    RESP -- yes --> SET_VAL[VALUE_i = DATA]
+
+    SET_NA --> NEXT[I = I + 1]
+    SET_VAL --> NEXT
+
+    NEXT --> CHECK_I{I < NB_SENSORS}
+    CHECK_I -- yes --> READ
+    CHECK_I -- no --> LINE[BUILD_LINE TIME VALUE_ARRAY]
+
+    LINE --> WRITE[WRITE_SD FILE_0]
+
+    WRITE --> ERR_SD{SD_ERROR}
+    ERR_SD -- yes --> STOP[SD_WRITE = FALSE]
+    STOP --> ERR_MSG[UI = SD_ERROR]
+
+    ERR_SD -- no --> SIZE{FILE_SIZE > FILE_MAX_SIZE}
+    SIZE -- yes --> ROTATE[ROTATE_FILE]
+    ROTATE --> RESET[CLEAR_FILE_0]
+
+    SIZE -- no --> CONTINUE
+
+    RESET --> LOOP
+    CONTINUE --> LOOP
+
+    LOOP --> BTN{MODE_BTN}
+    BTN -- ECO --> ECO[MODE = ECO]
+    BTN -- MAINT --> MAINT[MODE = MAINT]
+    BTN -- NONE --> LOOP
+```
