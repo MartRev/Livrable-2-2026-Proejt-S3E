@@ -338,3 +338,37 @@ flowchart TD
     BTN -- MAINT --> MAINT[MODE = MAINT]
     BTN -- NONE --> LOOP
 ```
+```mermaid
+stateDiagram-v2
+
+    [*] --> ECONOMIE
+
+    state ECONOMIE {
+
+        [*] --> INIT_ECO
+
+        INIT_ECO : MODE = ECONOMIE
+        INIT_ECO : LOG_INTERVAL = BASE_LOG_INTERVAL * 2
+        INIT_ECO : GPS_SAMPLE_COUNT = 0
+
+        INIT_ECO --> RUN_ECO
+
+        RUN_ECO : SENSOR_DATA = ReadSensors()
+        RUN_ECO : GPS_SAMPLE_COUNT++
+
+        RUN_ECO --> READ_GPS : GPS_SAMPLE_COUNT % 2 == 0
+        RUN_ECO --> SKIP_GPS : ELSE
+
+        READ_GPS : ReadGPS()
+        READ_GPS --> STORE_DATA
+
+        SKIP_GPS --> STORE_DATA
+
+        STORE_DATA : StoreData(LOG_INTERVAL)
+
+        STORE_DATA --> CHECK_EXIT
+
+        CHECK_EXIT --> STANDARD : BTN_RED == LONG_PRESS
+        CHECK_EXIT --> RUN_ECO : ELSE
+    }
+```
