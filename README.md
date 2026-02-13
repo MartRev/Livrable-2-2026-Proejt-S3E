@@ -286,59 +286,42 @@ stateDiagram-v2
 ```mermaid
 stateDiagram-v2
 
-    %% ======================================
-    %% ACTIVATION DU MODE MAINTENANCE
-    %% ======================================
+    STANDARD --> MAINTENANCE : BTN_RED == LONG_PRESS
+    ECONOMIE --> MAINTENANCE : BTN_RED == LONG_PRESS
+    %% Appui long sur bouton rouge
+    %% permet d'entrer en mode maintenance
 
-    [*] --> MAINTENANCE
-    %% Le système entre en mode maintenance
+    %% MODE MAINTENANCE
 
     state MAINTENANCE {
 
         [*] --> INIT_MAINT
 
-        %% ======================================
-        %% INITIALISATION DU MODE
-        %% ======================================
-
         INIT_MAINT : MODE = MAINTENANCE
         INIT_MAINT : SD_WRITE_ENABLE = FALSE
         INIT_MAINT : EnableUART()
-        %% Passage en mode maintenance
-        %% Blocage écriture carte SD
+        %% Désactivation de l'enregistrement sur le carte SD
         %% Activation interface série
-
         INIT_MAINT --> RUN_MAINT
-
-        %% ======================================
-        %% BOUCLE PRINCIPALE
-        %% ======================================
 
         RUN_MAINT : SENSOR_DATA = ReadSensors()
         RUN_MAINT : SendToUART(SENSOR_DATA)
-        %% Les capteurs continuent de mesurer
-        %% Les données sont envoyées automatiquement sur le port série
-        %% Aucune écriture sur la carte SD
+        %% Acquisition toujours active
+        %% Données envoyées en temps réel sur UART
 
         RUN_MAINT --> CHECK_EXIT : BTN_RED == LONG_PRESS
         RUN_MAINT --> RUN_MAINT : ELSE
-        %% Boucle continue tant que pas de sortie
 
-        %% ======================================
-        %% SORTIE DU MODE
-        %% ======================================
 
         CHECK_EXIT --> RETURN_MODE
-        %% Retour vers le mode précédent
     }
 
-    %% ======================================
-    %% RETOUR AU MODE PRÉCÉDENT
-    %% ======================================
+    %% RETOUR AU MODE PRECEDENT
 
     RETURN_MODE --> STANDARD : PREVIOUS_MODE == STANDARD
     RETURN_MODE --> ECONOMIE : PREVIOUS_MODE == ECONOMIE
-    %% Le système revient au mode actif avant maintenance
+    %% Retour au mode actif avant maintenance
+
 ```
 ## Mode Standard
 ```mermaid
@@ -431,7 +414,11 @@ flowchart TD
 ```mermaid
 stateDiagram-v2
 
+    %% ACTIVATION DU MODE ECONOMIE
+
     [*] --> ECONOMIE
+    %% Le système entre en mode économie
+    %% depuis le mode STANDARD (appui long bouton blanc)
 
     state ECONOMIE {
 
@@ -440,14 +427,22 @@ stateDiagram-v2
         INIT_ECO : MODE = ECONOMIE
         INIT_ECO : LOG_INTERVAL = BASE_LOG_INTERVAL * 2
         INIT_ECO : GPS_SAMPLE_COUNT = 0
+        %% On passe en mode économie
+        %% L’intervalle d’enregistrement est doublé
+        %% Le compteur GPS est initialisé à 0
 
         INIT_ECO --> RUN_ECO
-
         RUN_ECO : SENSOR_DATA = ReadSensors()
         RUN_ECO : GPS_SAMPLE_COUNT++
+        %% Lecture des capteurs
+        %% Incrémentation du compteur GPS (1 mesure sur 2)
 
+       
         RUN_ECO --> READ_GPS : GPS_SAMPLE_COUNT % 2 == 0
+        %% Si le compteur est pair on lit le GPS
+
         RUN_ECO --> SKIP_GPS : ELSE
+        %% Sinonon ignore la lecture GPS
 
         READ_GPS : ReadGPS()
         READ_GPS --> STORE_DATA
@@ -455,10 +450,19 @@ stateDiagram-v2
         SKIP_GPS --> STORE_DATA
 
         STORE_DATA : StoreData(LOG_INTERVAL)
+        %% Stockage des données
 
         STORE_DATA --> CHECK_EXIT
 
+  
+
         CHECK_EXIT --> STANDARD : BTN_RED == LONG_PRESS
+        %% Appui long bouton rouge
+        %% Retour au mode STANDARD
+
         CHECK_EXIT --> RUN_ECO : ELSE
+        %% Sinon, la boucle continue
     }
+
+
 ```
