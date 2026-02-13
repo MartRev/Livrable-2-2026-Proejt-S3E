@@ -233,6 +233,7 @@ Commentaire :
 Cette procédure constitue le cœur fonctionnel du système. Elle réalise l’acquisition des données, vérifie leur validité, puis les enregistre sur la carte SD à intervalles réguliers.
 
 ## Diagrammes détaillants le fcontionnement du système : 
+## Mode Configuration
 ```mermaid
 stateDiagram-v2
 
@@ -281,6 +282,7 @@ stateDiagram-v2
         %% Sinon on continue à attendre une commande
     }
 ```
+## Mode Maintenance
 ```mermaid
 stateDiagram-v2
 
@@ -338,6 +340,7 @@ stateDiagram-v2
     RETURN_MODE --> ECONOMIE : PREVIOUS_MODE == ECONOMIE
     %% Le système revient au mode actif avant maintenance
 ```
+## Mode Standard
 ```mermaid
 
 
@@ -424,6 +427,7 @@ flowchart TD
     %% Pas de changement de mode
     BTN -- NONE --> LOOP
 ```
+## Mode Economique 
 ```mermaid
 stateDiagram-v2
 
