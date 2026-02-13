@@ -238,30 +238,65 @@ void changeMode(Mode newMode) {
 ```mermaid
 stateDiagram-v2
 
+    %% ============================
+    %% ACTIVATION DU MODE CONFIG
+    %% ============================
+
     [*] --> CONFIG : BTN_BLUE == PRESSED_AT_BOOT
+    %% Si le bouton bleu est pressé au démarrage,
+    %% le système entre en mode configuration
 
     state CONFIG {
 
         [*] --> INIT_CONFIG
 
+        %% ============================
+        %% INITIALISATION DU MODE
+        %% ============================
+
         INIT_CONFIG : MODE = CONFIG
         INIT_CONFIG : DisableSensors()
         INIT_CONFIG : INACTIVITY_TIMER = 0
+        %% On désactive l'acquisition
+        %% On initialise le timer d'inactivité
 
         INIT_CONFIG --> WAIT_CMD
 
+        %% ============================
+        %% ATTENTE DE COMMANDE UART
+        %% ============================
+
         WAIT_CMD : UART_CMD = ReadUART()
+        %% Lecture d'une commande depuis la console série
 
         WAIT_CMD --> PROCESS_CMD : UART_CMD != 0
+        %% Si une commande est reçue
+
         WAIT_CMD --> CHECK_TIMEOUT : UART_CMD == 0
+        %% Sinon, on vérifie le timer d'inactivité
+
+        %% ============================
+        %% TRAITEMENT DES COMMANDES
+        %% ============================
 
         PROCESS_CMD : Update(EEPROM_PARAM)
         PROCESS_CMD : Reset(INACTIVITY_TIMER)
+        %% Mise à jour des paramètres système
+        %% Remise à zéro du timer
 
         PROCESS_CMD --> WAIT_CMD
+        %% Retour en attente d'une nouvelle commande
+
+        %% ============================
+        %% GESTION DU TIMEOUT
+        %% ============================
 
         CHECK_TIMEOUT --> STANDARD : INACTIVITY_TIMER >= 30min
+        %% Si aucune activité pendant 30 minutes,
+        %% retour automatique au mode standard
+
         CHECK_TIMEOUT --> WAIT_CMD : ELSE
+        %% Sinon, on continue à attendre une commande
     }
 ```
 ```mermaid
