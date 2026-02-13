@@ -10,10 +10,8 @@ Un grand nombre de sociétés utilisant des transports navals ont accepté d'éq
 ---
 
 ## Objectifs
-- Acquérir et horodater des données environnementales
-- Enregistrer les données sur carte SD
-- Permettre la configuration via interface série
-- Assurer un fonctionnement robuste et autonome
+-Comprendre le fonctionnement de la station
+-Réaliser la structure du code
 
 ---
 ## Contenu du document : Ce document contient les diagrammes de fonctionnement des 4 modes de la station et la tructure du code commentée.
