@@ -141,6 +141,7 @@ flowchart TD
     D7 -- Oui --> Economique
     D7 -- Non --> Maintenance_E
 ```
+##Mode de fonctionnement : Changement de LED 
 ```mermaid
 flowchart TD
 
@@ -162,19 +163,4 @@ flowchart TD
     Erreur -->|SD pleine| LED_SD_FULL[LED rouge/blanche clignotante 1Hz]
     Erreur -->|Erreur SD| LED_SD_ERR[LED rouge/blanche blanc plus long]
 ```
-```mermaid
-flowchart LR
-    A[Mode Standard] --- B[Mode Configuration]
-    A --- C[Mode Maintenance]
-    A --- D[Mode Économique]
 
-    B -->|30 min d'inactivité| A
-    C -->|Bouton rouge 5s| A
-    D -->|Bouton rouge 5s| A
-
-    A -->|Bouton rouge 5s| C
-    A -->|Bouton vert 5s| D
-    A -->|Bouton rouge au démarrage| B
-
-
-```
