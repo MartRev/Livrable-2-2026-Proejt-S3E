@@ -18,9 +18,9 @@ Un grand nombre de sociétés utilisant des transports navals ont accepté d'éq
 ---
 
 ## Structure générale du programme : 
-
+```mermaid
 flowchart TD
-'''mermaid
+
     subgraph System["Architecture Fonctionnelle"]
         A[Lecture capteurs] --> B[Horodatage RTC]
         B --> C[Enregistrement SD]
@@ -34,6 +34,6 @@ flowchart TD
         H --> I[Mode Maintenance]
         H --> J[Mode Économique]
     end
-'''
+```
 
 
