@@ -35,54 +35,144 @@ flowchart TD
         H --> J[Mode Économique]
     end
 ```
-```mermaid
+// --- Bibliothèques ---
+#include <EEPROM.h>
+#include <RTClib.h>
+#include <Wire.h>
+#include <SoftwareSerial.h>
+#include <SD.h>
+#include <DHT.h>
+#include <Rgb_lcd.h>
+#include <ChainableLED.h>
+#include <BH1750.h>
 
-flowchart TD
+// --- Modes ---
+enum Mode { STANDARD, CONFIG, MAINTENANCE, ECO };
+Mode actualMod, lastMod;
 
-    A([setup()]) --> B[initLibraries()]
-    B --> C[initSensors()]
-    B --> D[initGPS()]
-    B --> E[initRTC()]
-    B --> F[initSD()]
-    B --> G[loadConfig()]
+// --- Capteurs ---
+const int NB_CAPTEURS = 4;
+const int NB_VAL = 10;
 
-    H([loop()]) --> I[handleButtons()]
-    I --> J{Mode}
+struct Capteur {
+    float moy_gliss[NB_VAL];
+    int nb_erreur;
+};
 
-    J -->|STANDARD| K[collectData()]
-    J -->|CONFIG| L[processSerialCommands()]
-    J -->|MAINTENANCE| M[displayMaintenance()]
-    J -->|ECO| N[ecoCollect()]
+Capteur capteurs[NB_CAPTEURS];
+int ind_moy = 0;
 
-    K --> O[writeSD()]
-    K --> P[Lecture capteurs]
-    P --> Q[Add_Val()]
-```
-```mermaid
+// --- Paramètres système ---
+struct ConfigParams {
+    int LOG_INTERVAL;
+    int FILE_MAX_SIZE;
+    int TIMEOUT;
+    int LUMIN_LOW;
+    int LUMIN_HIGH;
+    int MIN_TEMP_AIR;
+    int MAX_TEMP_AIR;
+};
+ConfigParams config;
 
-flowchart TD
+// --- Fichiers SD ---
+File myFile;
+char nomFichier[20];
+void setup() {
 
-    A[Vert fixe] --> S[Standard]
-    B[Jaune fixe] --> C[Configuration]
-    D[Bleu fixe] --> E[Économique]
-    F[Orange fixe] --> M[Maintenance]
+    initLED();
+    initButtons();
+    initSensors();
+    initGPS();
+    initRTC();
+    initSD();
+    loadConfigEEPROM();
 
-    H[Rouge/Bleu 1Hz] --> I[Erreur RTC]
-    J[Rouge/Jaune 1Hz] --> K[Erreur GPS]
-    L[Rouge/Vert 1Hz] --> N[Erreur capteur]
-    O[Rouge/Vert (vert x2)] --> P[Capteur incohérent]
-    Q[Rouge/Blanc 1Hz] --> R[SD pleine]
-    S[Rouge/Blanc (blanc x2)] --> T[Erreur écriture SD]
+    actualMod = STANDARD;
+    updateLED(actualMod);
+}
+void loop() {
 
-flowchart LR
+    handleButtons();  // Détection appui court / long
 
-    S[Standard] -->|Bouton rouge 5s| M[Maintenance]
-    S -->|Bouton vert 5s| E[Économique]
-    S -->|Bouton rouge au démarrage| C[Configuration]
+    switch(actualMod) {
 
-    M -->|Bouton rouge 5s| S
-    E -->|Bouton rouge 5s| S
+        case STANDARD:
+            collectData(config.LOG_INTERVAL);
+            break;
 
-    C -->|30 min inactivité| S
-```
+        case CONFIG:
+            processSerialCommands();
+            break;
+
+        case MAINTENANCE:
+            displayMaintenance();
+            break;
+
+        case ECO:
+            collectData(config.LOG_INTERVAL * 2);
+            break;
+    }
+}
+void Lecture(float* tab_val, int* erreurs) {
+
+    float mesure;
+    bool erreur;
+
+    for (int i = 0; i < NB_CAPTEURS; i++) {
+
+        mesure = 0;
+        erreur = Lecture_capteur(&mesure, i);
+
+        if (erreur) {
+            erreurs[i]++;
+        } else {
+            Add_Val(tab_val, mesure);
+        }
+    }
+}
+void Lecture(float* tab_val, int* erreurs) {
+
+    float mesure;
+    bool erreur;
+
+    for (int i = 0; i < NB_CAPTEURS; i++) {
+
+        mesure = 0;
+        erreur = Lecture_capteur(&mesure, i);
+
+        if (erreur) {
+            erreurs[i]++;
+        } else {
+            Add_Val(tab_val, mesure);
+        }
+    }
+}
+void Add_Val(float* tab_moy, float val) {
+
+    tab_moy[ind_moy] = val;
+
+    if (ind_moy >= NB_VAL - 1)
+        ind_moy = 0;
+    else
+        ind_moy++;
+}
+void collectData(int interval) {
+
+    if (millis() - lastMeasure >= interval) {
+
+        float temp = collectTemperature();
+        float hum  = collectHumidity();
+        int lum    = collectLuminosity();
+        String gps = getGPSData();
+
+        writeSD(temp, hum, lum, gps);
+
+        lastMeasure = millis();
+    }
+}
+void changeMode(Mode newMode) {
+    lastMod = actualMod;
+    actualMod = newMode;
+    updateLED(newMode);
+}
 
