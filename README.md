@@ -407,7 +407,5 @@ stateDiagram-v2
 
         CHECK_EXIT --> STANDARD : BTN_RED == LONG_PRESS
         CHECK_EXIT --> RUN_ECO : ELSE
-ijfijsfnjs frziqf
-3)fnksnf
     }
 ```
