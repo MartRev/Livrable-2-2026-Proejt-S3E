@@ -35,9 +35,8 @@ flowchart TD
         H --> J[Mode Économique]
     end
 ```
-```ccp
 1. Déclarations globales
-
+```ccp
 // -------------------------------------------------------------
 // Bibliothèques nécessaires
 // -------------------------------------------------------------
@@ -90,10 +89,11 @@ ConfigParams config;
 // -------------------------------------------------------------
 File myFile;
 char nomFichier[20];
-
+```
 
 2. Initialisation (setup)
 
+```ccp
 
 // -------------------------------------------------------------
 // Initialisation du système
@@ -112,9 +112,10 @@ void setup() {
     updateLED(actualMod);   // Mise à jour de la LED selon le mode
 }
 
-
+```
 3. Machine à états (loop)
 
+```ccp
 
 // -------------------------------------------------------------
 // Boucle principale : machine à états
@@ -147,8 +148,9 @@ void loop() {
     }
 }
 
-
+```
 4. Lecture des capteurs (avec pointeurs)
+```ccp
 
 
 // -------------------------------------------------------------
@@ -173,10 +175,11 @@ void Lecture(float* tab_val, int* erreurs) {
         }
     }
 }
-
+```
 
 5. Moyenne glissante
 
+```ccp
 
 // -------------------------------------------------------------
 // Ajout d’une valeur dans la moyenne glissante
@@ -192,9 +195,10 @@ void Add_Val(float* tab_moy, float val) {
         ind_moy++;
 }
 
-
+```
 6. Collecte + enregistrement SD
 
+```ccp
 
 // -------------------------------------------------------------
 // Collecte des données + écriture sur SD
@@ -213,10 +217,11 @@ void collectData(int interval) {
         lastMeasure = millis();              // Mise à jour du timer
     }
 }
-
+```
 
 7. Gestion des modes
 
+```ccp
 
 // -------------------------------------------------------------
 // Changement de mode
@@ -229,7 +234,6 @@ void changeMode(Mode newMode) {
     updateLED(newMode);      // Mise à jour de la LED RGB
 }
 ```
-
 
 ```mermaid
 stateDiagram-v2
