@@ -280,7 +280,9 @@ stateDiagram-v2
 ```mermaid
 stateDiagram-v2
 
+    %% ======================================
     %% ACTIVATION DU MODE MAINTENANCE
+    %% ======================================
 
     [*] --> MAINTENANCE
     %% Le système entre en mode maintenance
@@ -289,50 +291,48 @@ stateDiagram-v2
 
         [*] --> INIT_MAINT
 
+        %% ======================================
         %% INITIALISATION DU MODE
+        %% ======================================
 
         INIT_MAINT : MODE = MAINTENANCE
         INIT_MAINT : SD_WRITE_ENABLE = FALSE
         INIT_MAINT : EnableUART()
-        %% On passe le système en maintenance
-        %% On bloque l'écriture sur la carte SD
-        %% On active l'interface série (UART)
+        %% Passage en mode maintenance
+        %% Blocage écriture carte SD
+        %% Activation interface série
 
         INIT_MAINT --> RUN_MAINT
 
+        %% ======================================
+        %% BOUCLE PRINCIPALE
+        %% ======================================
+
         RUN_MAINT : SENSOR_DATA = ReadSensors()
         RUN_MAINT : SendToUART(SENSOR_DATA)
-        %% Les capteurs mesure et les données sont affiché en temps réel sur UART
+        %% Les capteurs continuent de mesurer
+        %% Les données sont envoyées automatiquement sur le port série
         %% Aucune écriture sur la carte SD
 
-
-
         RUN_MAINT --> CHECK_EXIT : BTN_RED == LONG_PRESS
-        %% Si appui longtemps bouton rouge, mode maintenance activé
-
         RUN_MAINT --> RUN_MAINT : ELSE
-        %% Sinon, on continue la boucle
+        %% Boucle continue tant que pas de sortie
 
-        %% ENVOI DES DONNÉES
-
-        SEND_DATA : SendToUART(SENSOR_DATA)
-        %% Transmission directe des données
-        %% (sans écriture sur la carte SD)
-
-        SEND_DATA --> RUN_MAINT
-
-        
+        %% ======================================
+        %% SORTIE DU MODE
+        %% ======================================
 
         CHECK_EXIT --> RETURN_MODE
-        %% On retourne vers le mode précédent
+        %% Retour vers le mode précédent
     }
 
-    
+    %% ======================================
+    %% RETOUR AU MODE PRÉCÉDENT
+    %% ======================================
 
     RETURN_MODE --> STANDARD : PREVIOUS_MODE == STANDARD
     RETURN_MODE --> ECONOMIE : PREVIOUS_MODE == ECONOMIE
     %% Le système revient au mode actif avant maintenance
-
 ```
 ```mermaid
 
