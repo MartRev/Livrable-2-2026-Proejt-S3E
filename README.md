@@ -305,9 +305,7 @@ stateDiagram-v2
         %% Les capteurs mesure et les données sont affiché en temps réel sur UART
         %% Aucune écriture sur la carte SD
 
-        RUN_MAINT --> SEND_DATA : UART_CMD == "READ"
-        %% Si la commande READ est reçue,
-        %% on envoie les données via UART
+
 
         RUN_MAINT --> CHECK_EXIT : BTN_RED == LONG_PRESS
         %% Si appui longtemps bouton rouge, mode maintenance activé
