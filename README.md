@@ -35,7 +35,8 @@ flowchart TD
         H --> J[Mode Économique]
     end
 ```
-{
+```ccp
+
 1. Déclarations globales
 
 // -------------------------------------------------------------
@@ -229,6 +230,7 @@ void changeMode(Mode newMode) {
     updateLED(newMode);      // Mise à jour de la LED RGB
 }
 }
+```
 
 
 ```mermaid
