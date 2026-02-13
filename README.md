@@ -94,27 +94,4 @@ flowchart LR
     UC14 --> UC8
     UC14 --> UC11
 
-
-## Architecture – Gestion des Modes LCD
-
-```mermaid
-stateDiagram-v2
-    [*] --> Standard
-
-    Standard : entry / lcd.clear()
-    Standard : entry / lcd.print("Mode STANDARD")
-
-    Economique : entry / lcd.clear()
-    Economique : entry / lcd.print("Mode ECONOMIQUE")
-
-    Maintenance : entry / lcd.clear()
-    Maintenance : entry / lcd.print("Mode MAINTENANCE")
-
-    Configuration : entry / lcd.clear()
-    Configuration : entry / lcd.print("Mode CONFIG")
-
-    Standard --> Economique : Bouton pressé
-    Economique --> Maintenance : Bouton pressé
-    Maintenance --> Configuration : Bouton pressé
-    Configuration --> Standard : Bouton pressé
 ```
