@@ -238,10 +238,6 @@ void changeMode(Mode newMode) {
 ```mermaid
 stateDiagram-v2
 
-    %% ============================
-    %% ACTIVATION DU MODE CONFIG
-    %% ============================
-
     [*] --> CONFIG : BTN_BLUE == PRESSED_AT_BOOT
     %% Si le bouton bleu est pressé au démarrage,
     %% le système entre en mode configuration
