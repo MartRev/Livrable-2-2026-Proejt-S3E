@@ -93,10 +93,9 @@ flowchart LR
     UC14 --> UC5
     UC14 --> UC8
     UC14 --> UC11
+```
 
-'''
-
-'''mermaid
+```mermaid
 flowchart TD
 
     Start([Démarrage du système])
@@ -137,4 +136,4 @@ flowchart TD
     Maintenance_E --> D7{Bouton rouge 5s ?}
     D7 -- Oui --> Economique
     D7 -- Non --> Maintenance_E
-'''
+```
