@@ -297,45 +297,82 @@ stateDiagram-v2
 ```
 ```mermaid
 flowchart TD
+    %% on initialise 
     START([START])
 
+    %% on rentre en mode standard
     START --> MODE[MODE = STANDARD]
+
+    %% Initialisation des capteurs
     MODE --> INIT[INIT_SENSORS]
+
+    %% Indication avec la led du fonctionnement normal
     INIT --> LED[LED = GREEN]
 
+    %% Pour la BOUCLE PRINCIPALE
+    %% Déclenchement périodique selon LOG_INTERVAL de 10min
     LED --> LOOP{{t >= LOG_INTERVAL}}
 
+    %% Lecture du capteur i
     LOOP --> READ[READ_SENSOR_i]
 
+    %% on vérifie le temps de réponse
     READ --> RESP{RESP_TIME < TIMEOUT}
+
+    %% Si le capteur ne répond pas
     RESP -- no --> SET_NA[VALUE_i = NA]
+
+    %% Si le capteur répond bien
     RESP -- yes --> SET_VAL[VALUE_i = DATA]
 
+    %% on passe au capteur suivant
     SET_NA --> NEXT[I = I + 1]
     SET_VAL --> NEXT
 
+    %% Vérification s’il reste des capteurs à lire
     NEXT --> CHECK_I{I < NB_SENSORS}
+
+    %% on continue la lecture des capteurs
     CHECK_I -- yes --> READ
+
+    %% tous les capteurs ont été lus
     CHECK_I -- no --> LINE[BUILD_LINE TIME VALUE_ARRAY]
 
+    %% ÉCRITURE SUR CARTE SD
+    %% Écriture dans le fichier de révision 0
     LINE --> WRITE[WRITE_SD FILE_0]
 
+    %% Vérification si il y a des erreur d’écriture
     WRITE --> ERR_SD{SD_ERROR}
+
+    %% En cas d’erreur SD
     ERR_SD -- yes --> STOP[SD_WRITE = FALSE]
     STOP --> ERR_MSG[UI = SD_ERROR]
 
+    %% Si pas d’erreur SD
     ERR_SD -- no --> SIZE{FILE_SIZE > FILE_MAX_SIZE}
+
+    %% Si le fichier dépasse la taille max
     SIZE -- yes --> ROTATE[ROTATE_FILE]
     ROTATE --> RESET[CLEAR_FILE_0]
 
+    %% Sinon on continue l’écriture normale
     SIZE -- no --> CONTINUE
 
     RESET --> LOOP
     CONTINUE --> LOOP
 
+    %%  CHANGEMENT DE MODE
+    %% on regarde le bouton de mode
     LOOP --> BTN{MODE_BTN}
+
+    %% Passage en mode économique
     BTN -- ECO --> ECO[MODE = ECO]
+
+    %% Passage en mode maintenance
     BTN -- MAINT --> MAINT[MODE = MAINT]
+
+    %% Pas de changement de mode
     BTN -- NONE --> LOOP
 ```
 ```mermaid
