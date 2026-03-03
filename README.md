@@ -21,9 +21,44 @@ Un grand nombre de sociétés utilisant des transports navals ont accepté d'éq
 ## Diagrammes détaillants le fonctionnement du système (les commentaires des diagrammes sont dans "code") : 
 ## Mode Configuration
 
-Si le bouton bleu est pressé au démarrage, l’appareil entre en mode configuration, désactive ses capteurs et attend des commandes via la liaison série.
-Chaque commande reçue met à jour les paramètres et relance le compteur d’inactivité.
-Sans activité pendant 30 minutes, le système quitte automatiquement le mode configuration et revient au fonctionnement normal.
+## Description
+
+Au démarrage, si le bouton bleu est maintenu appuyé, le système entre en **mode CONFIGURATION**.
+Ce mode permet de modifier les paramètres via la liaison série (UART).
+Les capteurs sont désactivés pour éviter toute acquisition pendant la configuration.
+
+## Variables
+
+* `MODE` : variable globale indiquant le mode courant du système.
+* `INACTIVITY_TIMER` : compteur mesurant la durée sans activité UART.
+* `EEPROM_PARAM` : structure contenant les paramètres système stockés en mémoire non volatile.
+* `UART_CMD` : variable contenant la commande reçue via la liaison série.
+
+## Fonctions
+
+* `DisableSensors()`
+  Désactive l’acquisition des capteurs.
+
+* `ReadUART()`
+  Lit une commande reçue sur l’interface série.
+  Retourne `0` si aucune commande n’est disponible.
+
+* `Update(EEPROM_PARAM)`
+  Met à jour les paramètres système en mémoire EEPROM.
+
+* `Reset(INACTIVITY_TIMER)`
+  Remet le compteur d’inactivité à zéro.
+
+## Fonctionnement
+
+Le système attend des commandes UART en boucle.
+Chaque commande reçue :
+
+* met à jour les paramètres,
+* remet à zéro le timer d’inactivité.
+
+Si aucune activité n’est détectée pendant 30 minutes, le système quitte automatiquement le mode CONFIGURATION et retourne en mode STANDARD.
+
 
 ```mermaid
 stateDiagram-v2
