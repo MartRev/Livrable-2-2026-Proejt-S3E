@@ -110,16 +110,45 @@ stateDiagram-v2
 ```
 ## Mode Maintenance
 
-Si on est en mode STANDARD ou ECONOMIE, un appui long sur le bouton rouge fait entrer en mode MAINTENANCE.
-En entrant dans ce mode, le système :
+### Description
 
-- passe en mode MAINTENANCE
-- désactive l’écriture sur la carte SD
-- active la communication UART
+Accessible depuis les modes STANDARD ou ECONOMIE via un appui long sur le bouton rouge.
 
-L’acquisition des capteurs reste active, mais les données sont envoyées en temps réel sur la liaison série au lieu d’être enregistrées.
-Un nouvel appui long sur le bouton rouge permet de quitter le mode maintenance.
-Le système revient alors automatiquement au mode qui était actif avant (STANDARD ou ECONOMIE).
+Ce mode permet :
+
+* de continuer l’acquisition des capteurs,
+* d’envoyer les données en temps réel via l’UART,
+* de désactiver l’enregistrement sur carte SD.
+
+### Variables
+
+* `MODE` : mode courant.
+* `PREVIOUS_MODE` : mode actif avant l’entrée en maintenance.
+* `SD_WRITE_ENABLE` : booléen autorisant ou non l’écriture sur la carte SD.
+* `SENSOR_DATA` : structure contenant les données capteurs lues.
+
+### Fonctions
+
+* `EnableUART()`
+  Active l’interface série.
+
+* `ReadSensors()`
+  Lit l’ensemble des capteurs et retourne les valeurs mesurées.
+
+* `SendToUART(SENSOR_DATA)`
+  Transmet les données capteurs sur la liaison série.
+
+### Fonctionnement
+
+À l’entrée :
+
+* l’écriture SD est désactivée,
+* l’UART est activée.
+
+Les capteurs continuent d’être lus en continu.
+Les données sont envoyées en temps réel sur la liaison série.
+
+Un nouvel appui long sur le bouton rouge permet de quitter le mode MAINTENANCE et de revenir au mode actif précédent (STANDARD ou ECONOMIE).
 
 ```mermaid
 stateDiagram-v2
@@ -163,22 +192,65 @@ stateDiagram-v2
 ```
 ## Mode Standard
 
-Au démarrage, le système passe en mode STANDARD, initialise les capteurs et allume la LED verte pour indiquer un fonctionnement normal.
-Ensuite, il entre dans une boucle principale déclenchée périodiquement (toutes les 10 minutes). À chaque cycle, il lit les capteurs un par un avec un timeout :
+### Description
 
-- si un capteur ne répond pas à temps, sa valeur est marquée comme indisponible (NA),
-- sinon, la mesure est enregistrée.
+Mode de fonctionnement normal du système.
+Les capteurs sont lus périodiquement et les données sont enregistrées sur carte SD.
 
-Une fois tous les capteurs lus, le système construit une ligne de données horodatée, puis l’écrit sur la carte SD.
+### Variables
 
-Si une erreur d’écriture survient, l’enregistrement est désactivé et une erreur est signalée à l’utilisateur.
-Si l’écriture réussit, la taille du fichier est vérifiée :
+* `LOG_INTERVAL` : intervalle de temps entre deux enregistrements (ex : 10 minutes).
+* `NB_SENSORS` : nombre total de capteurs.
+* `I` : index du capteur en cours de lecture.
+* `TIMEOUT` : temps maximal autorisé pour la réponse d’un capteur.
+* `RESP_TIME` : temps réel de réponse du capteur.
+* `VALUE_i` : valeur lue pour le capteur i.
+* `VALUE_ARRAY` : tableau contenant toutes les valeurs capteurs.
+* `FILE_0` : fichier courant d’enregistrement.
+* `FILE_MAX_SIZE` : taille maximale autorisée pour un fichier.
+* `SD_ERROR` : indicateur d’erreur d’écriture SD.
 
-- si la taille maximale est dépassée, un nouveau fichier est créé (rotation),
-- sinon, l’écriture continue normalement.
+### Fonctions
 
-En parallèle, le système surveille le bouton de mode : l’utilisateur peut basculer vers le mode ECO ou MAINTENANCE à tout moment.
-Sinon, il reste en mode STANDARD et poursuit son cycle d’acquisition et d’enregistrement.
+* `INIT_SENSORS()`
+  Initialise tous les capteurs.
+
+* `READ_SENSOR_i()`
+  Lit le capteur d’index `i`.
+
+* `BUILD_LINE(TIME, VALUE_ARRAY)`
+  Construit une ligne horodatée contenant toutes les valeurs capteurs.
+
+* `WRITE_SD(FILE_0)`
+  Écrit la ligne dans le fichier courant sur la carte SD.
+
+* `ROTATE_FILE()`
+  Crée un nouveau fichier lorsque la taille maximale est atteinte.
+
+* `CLEAR_FILE_0()`
+  Réinitialise le fichier courant après rotation.
+
+### Fonctionnement
+
+1. Initialisation des capteurs.
+2. LED verte activée.
+3. Boucle principale déclenchée toutes les `LOG_INTERVAL`.
+
+À chaque cycle :
+
+* lecture de chaque capteur avec gestion du timeout,
+* remplacement par `NA` si absence de réponse,
+* construction d’une ligne horodatée,
+* écriture sur carte SD.
+
+En cas d’erreur SD :
+
+* arrêt de l’écriture,
+* signalement d’erreur à l’utilisateur.
+
+Si le fichier dépasse `FILE_MAX_SIZE`, une rotation de fichier est effectuée.
+
+Le bouton de mode permet à tout moment de passer en ECO ou MAINTENANCE.
 
 ```mermaid
 
@@ -268,19 +340,49 @@ flowchart TD
 ```
 ## Mode Economique 
 
-Au passage en **mode ECONOMIE** (depuis le mode STANDARD), le système adapte son fonctionnement pour réduire la consommation.
+### Description
 
-À l’entrée dans ce mode :
+Mode basse consommation activé depuis STANDARD.
 
-- le mode est défini sur ECONOMIE,
-- l’intervalle d’enregistrement est doublé,
-- le compteur GPS est remis à zéro.
+Les objectifs :
 
-Le système lit ensuite les capteurs à chaque cycle, mais le GPS n’est lu qu’une fois sur deux grâce au compteur (une mesure GPS sur deux cycles).
-Les données sont ensuite stockées selon le nouvel intervalle plus long.
-Le système reste dans cette boucle tant qu’aucune action n’est faite.
-Un appui long sur le bouton rouge permet de quitter le mode ECONOMIE et de revenir au mode STANDARD.
+* réduire la fréquence d’enregistrement,
+* limiter l’utilisation du GPS,
+* diminuer la consommation énergétique globale.
 
+### Variables
+
+* `LOG_INTERVAL` : intervalle d’enregistrement (doublé par rapport au mode STANDARD).
+* `BASE_LOG_INTERVAL` : intervalle standard de référence.
+* `GPS_SAMPLE_COUNT` : compteur permettant de ne lire le GPS qu’une fois sur deux cycles.
+* `SENSOR_DATA` : structure contenant les données mesurées.
+
+### Fonctions
+
+* `ReadSensors()`
+  Lit les capteurs principaux.
+
+* `ReadGPS()`
+  Lit les données GPS.
+
+* `StoreData(LOG_INTERVAL)`
+  Stocke les données selon l’intervalle défini.
+
+### Fonctionnement
+
+À l’entrée :
+
+* `LOG_INTERVAL` est multiplié par 2,
+* le compteur GPS est remis à zéro.
+
+À chaque cycle :
+
+* lecture des capteurs,
+* incrémentation du compteur GPS,
+* lecture du GPS uniquement si le compteur est pair,
+* stockage des données.
+
+Le système reste dans cette boucle jusqu’à un appui long sur le bouton rouge, qui provoque le retour en mode STANDARD.
 
 ```mermaid
 stateDiagram-v2
