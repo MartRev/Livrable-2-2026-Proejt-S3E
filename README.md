@@ -20,6 +20,9 @@ Un grand nombre de sociétés utilisant des transports navals ont accepté d'éq
 
 ## Diagrammes détaillants le fonctionnement du système (les commentaires des diagrammes sont dans "code") : 
 ## Mode Configuration
+Si le bouton bleu est pressé au démarrage, l’appareil entre en mode configuration, désactive ses capteurs et attend des commandes via la liaison série.
+Chaque commande reçue met à jour les paramètres et relance le compteur d’inactivité.
+Sans activité pendant 30 minutes, le système quitte automatiquement le mode configuration et revient au fonctionnement normal.
 ```mermaid
 stateDiagram-v2
 
