@@ -29,7 +29,6 @@ Les capteurs sont désactivés pour éviter toute acquisition pendant la configu
 
 ### Variables
 
-* `MODE` : variable globale indiquant le mode courant du système.
 * `INACTIVITY_TIMER` : compteur mesurant la durée sans activité UART.
 * `EEPROM_PARAM` : structure contenant les paramètres système stockés en mémoire non volatile.
 * `UART_CMD` : variable contenant la commande reçue via la liaison série.
@@ -122,7 +121,6 @@ Ce mode permet :
 
 ### Variables
 
-* `MODE` : mode courant.
 * `PREVIOUS_MODE` : mode actif avant l’entrée en maintenance.
 * `SD_WRITE_ENABLE` : booléen autorisant ou non l’écriture sur la carte SD.
 * `SENSOR_DATA` : structure contenant les données capteurs lues.
