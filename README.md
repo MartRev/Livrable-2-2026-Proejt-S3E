@@ -232,6 +232,21 @@ flowchart TD
     BTN -- NONE --> LOOP
 ```
 ## Mode Economique 
+
+Au passage en **mode ECONOMIE** (depuis le mode STANDARD), le système adapte son fonctionnement pour réduire la consommation.
+
+À l’entrée dans ce mode :
+
+- le mode est défini sur ECONOMIE,
+- l’intervalle d’enregistrement est doublé,
+- le compteur GPS est remis à zéro.
+
+Le système lit ensuite les capteurs à chaque cycle, mais le GPS n’est lu qu’une fois sur deux grâce au compteur (une mesure GPS sur deux cycles).
+Les données sont ensuite stockées selon le nouvel intervalle plus long.
+Le système reste dans cette boucle tant qu’aucune action n’est faite.
+Un appui long sur le bouton rouge permet de quitter le mode ECONOMIE et de revenir au mode STANDARD.
+
+
 ```mermaid
 stateDiagram-v2
 
