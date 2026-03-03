@@ -76,10 +76,12 @@ stateDiagram-v2
 ## Mode Maintenance
 
 Si on est en mode STANDARD ou ECONOMIE, un appui long sur le bouton rouge fait entrer en mode MAINTENANCE.
+
 En entrant dans ce mode, le système :
 - passe en mode MAINTENANCE
 - désactive l’écriture sur la carte SD
 - active la communication UART
+
 L’acquisition des capteurs reste active, mais les données sont envoyées en temps réel sur la liaison série au lieu d’être enregistrées.
 Un nouvel appui long sur le bouton rouge permet de quitter le mode maintenance.
 Le système revient alors automatiquement au mode qui était actif avant (STANDARD ou ECONOMIE).
