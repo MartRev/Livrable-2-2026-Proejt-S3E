@@ -127,6 +127,24 @@ stateDiagram-v2
 
 ```
 ## Mode Standard
+
+Au démarrage, le système passe en mode STANDARD, initialise les capteurs et allume la LED verte pour indiquer un fonctionnement normal.
+Ensuite, il entre dans une boucle principale déclenchée périodiquement (toutes les 10 minutes). À chaque cycle, il lit les capteurs un par un avec un timeout :
+
+- si un capteur ne répond pas à temps, sa valeur est marquée comme indisponible (NA),
+- sinon, la mesure est enregistrée.
+
+Une fois tous les capteurs lus, le système construit une ligne de données horodatée, puis l’écrit sur la carte SD.
+
+Si une erreur d’écriture survient, l’enregistrement est désactivé et une erreur est signalée à l’utilisateur.
+Si l’écriture réussit, la taille du fichier est vérifiée :
+
+- si la taille maximale est dépassée, un nouveau fichier est créé (rotation),
+- sinon, l’écriture continue normalement.
+
+En parallèle, le système surveille le bouton de mode : l’utilisateur peut basculer vers le mode ECO ou MAINTENANCE à tout moment.
+Sinon, il reste en mode STANDARD et poursuit son cycle d’acquisition et d’enregistrement.
+
 ```mermaid
 
 
