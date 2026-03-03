@@ -27,14 +27,14 @@ Au démarrage, si le bouton bleu est maintenu appuyé, le système entre en **mo
 Ce mode permet de modifier les paramètres via la liaison série (UART).
 Les capteurs sont désactivés pour éviter toute acquisition pendant la configuration.
 
-## Variables
+### Variables
 
 * `MODE` : variable globale indiquant le mode courant du système.
 * `INACTIVITY_TIMER` : compteur mesurant la durée sans activité UART.
 * `EEPROM_PARAM` : structure contenant les paramètres système stockés en mémoire non volatile.
 * `UART_CMD` : variable contenant la commande reçue via la liaison série.
 
-## Fonctions
+### Fonctions
 
 * `DisableSensors()`
   Désactive l’acquisition des capteurs.
@@ -49,7 +49,7 @@ Les capteurs sont désactivés pour éviter toute acquisition pendant la configu
 * `Reset(INACTIVITY_TIMER)`
   Remet le compteur d’inactivité à zéro.
 
-## Fonctionnement
+### Fonctionnement
 
 Le système attend des commandes UART en boucle.
 Chaque commande reçue :
