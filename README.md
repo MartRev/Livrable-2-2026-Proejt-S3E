@@ -21,7 +21,7 @@ Un grand nombre de sociétés utilisant des transports navals ont accepté d'éq
 ## Diagrammes détaillants le fonctionnement du système (les commentaires des diagrammes sont dans "code") : 
 ## Mode Configuration
 
-# Description
+### Description
 
 Au démarrage, si le bouton bleu est maintenu appuyé, le système entre en **mode CONFIGURATION**.
 Ce mode permet de modifier les paramètres via la liaison série (UART).
