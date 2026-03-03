@@ -20,9 +20,11 @@ Un grand nombre de sociétés utilisant des transports navals ont accepté d'éq
 
 ## Diagrammes détaillants le fonctionnement du système (les commentaires des diagrammes sont dans "code") : 
 ## Mode Configuration
+
 Si le bouton bleu est pressé au démarrage, l’appareil entre en mode configuration, désactive ses capteurs et attend des commandes via la liaison série.
 Chaque commande reçue met à jour les paramètres et relance le compteur d’inactivité.
 Sans activité pendant 30 minutes, le système quitte automatiquement le mode configuration et revient au fonctionnement normal.
+
 ```mermaid
 stateDiagram-v2
 
@@ -72,6 +74,16 @@ stateDiagram-v2
     }
 ```
 ## Mode Maintenance
+
+Si on est en mode STANDARD ou ECONOMIE, un appui long sur le bouton rouge fait entrer en mode MAINTENANCE.
+En entrant dans ce mode, le système :
+- passe en mode MAINTENANCE
+- désactive l’écriture sur la carte SD
+- active la communication UART
+L’acquisition des capteurs reste active, mais les données sont envoyées en temps réel sur la liaison série au lieu d’être enregistrées.
+Un nouvel appui long sur le bouton rouge permet de quitter le mode maintenance.
+Le système revient alors automatiquement au mode qui était actif avant (STANDARD ou ECONOMIE).
+
 ```mermaid
 stateDiagram-v2
 
