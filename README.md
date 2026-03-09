@@ -504,7 +504,36 @@ VARIABLE nomFichier
 FONCTION checkLimits(value, minVal, maxVal)
 ```
 Commentaire :
-Cette section définit la structure globale du système : les modules matériels utilisés, les modes de fonctionnement, les structures de données pour les capteurs et les paramètres configurables. Elle prépare également les variables nécessaires à la gestion du stockage et à la validation des mesures.
+Cette première partie pose les fondations du programme.
+Elle rassemble tout ce dont le système a besoin pour fonctionner :
+
+Les bibliothèques
+Elles permettent au programme de communiquer avec les composants matériels (capteurs, GPS, écran, carte SD…).
+Sans elles, il faudrait réécrire tout le code bas niveau.
+
+Les modes de fonctionnement
+Le système peut fonctionner de plusieurs façons : mode normal, mode configuration, mode maintenance, mode économie d’énergie.
+Deux variables permettent de savoir dans quel mode on est et d’où l’on vient.
+
+Les capteurs
+Chaque capteur possède :
+-un tableau pour stocker ses dernières mesures (moyenne glissante)
+-un compteur d’erreurs
+Cela permet de lisser les données et de détecter les capteurs défaillants.
+
+Les paramètres système
+Ils regroupent tous les réglages importants : fréquence d’enregistrement, seuils de luminosité, limites de température, etc.
+Ces paramètres sont sauvegardés pour être conservés même après redémarrage.
+
+La gestion de la carte SD
+Deux variables servent à manipuler les fichiers :
+-le fichier en cours
+-son nom
+
+La fonction checkLimits()
+Elle servira plus tard à vérifier si une mesure est valide ou hors limites.
+
+Cette section prépare toutes les briques nécessaires au fonctionnement du système.
 
 <2> Initialisation (setup)
 
@@ -529,7 +558,15 @@ PROCÉDURE setup()
 FIN PROCÉDURE
 ```
 Commentaire :
-Cette procédure est exécutée une seule fois au démarrage. Elle initialise tous les modules matériels et charge la configuration sauvegardée. Le système démarre en mode STANDARD.
+Cette procédure est exécutée une seule fois, au moment où l’appareil démarre.
+Elle sert à :
+-réveiller tous les modules matériels
+-vérifier que les capteurs répondent
+-préparer la carte SD
+-charger les réglages sauvegardés
+-définir le mode de départ (STANDARD)
+-mettre la LED dans la bonne couleur selon le mode
+C’est l’équivalent du “boot” d’un ordinateur.
 
 <3> Changement de modes (loop)
 ```ccp
@@ -559,7 +596,14 @@ PROCÉDURE loop()
 FIN PROCÉDURE
 ```
 Commentaire :
-La boucle principale implémente la machine à états. En fonction du mode actif, le comportement du système change dynamiquement.
+Cette partie tourne en continu, tant que l’appareil est allumé.
+Elle fonctionne comme une machine à états :
+-en mode STANDARD → on collecte les données normalement
+-en mode CONFIG → on écoute les commandes envoyées par l’utilisateur
+-en mode MAINTENANCE → on affiche les données brutes pour diagnostiquer
+-en mode ECO → on collecte moins souvent pour économiser l’énergie
+
+Le programme adapte son comportement automatiquement selon le mode actif.
 
 <4> Lecture des capteurs (avec pointeurs)
 ```ccp
@@ -583,7 +627,15 @@ PROCÉDURE Lecture(tab_val, erreurs)
 FIN PROCÉDURE
 ```
 Commentaire :
-Cette procédure centralise la lecture des capteurs. En cas d’erreur, un compteur est incrémenté. Sinon, la valeur valide est ajoutée dans la mémoire de moyenne glissante.
+Cette procédure lit tous les capteurs un par un.
+
+Pour chaque capteur :
+-si la lecture échoue → on augmente son compteur d’erreurs
+-si la lecture réussit → on stocke la valeur dans la moyenne glissante
+
+Cela permet :
+-de détecter les capteurs défaillants
+-de lisser les mesures pour éviter les valeurs aberrantes
 
 <5> Moyenne glissante
 ```ccp
@@ -603,7 +655,12 @@ PROCÉDURE Add_Val(tab_moy, val)
 FIN PROCÉDURE
 ```
 Commentaire :
-Les mesures sont stockées dans un tableau circulaire afin de lisser les variations et conserver uniquement les valeurs récentes.
+Les valeurs des capteurs sont stockées dans un tableau circulaire :
+-quand on arrive à la fin du tableau, on recommence au début
+-cela permet de garder uniquement les valeurs les plus récentes
+-on peut ensuite calculer une moyenne glissante pour lisser les données
+
+C’est une technique classique pour stabiliser les mesures.
 
 <6> Vérification des limites : checkLimits()
 ```ccp
@@ -623,7 +680,15 @@ FONCTION checkLimits(value, minVal, maxVal)
 FIN FONCTION
 ```
 Commentaire :
-Cette fonction garantit que seules les valeurs cohérentes sont exploitées. Elle filtre les capteurs non répondants et les mesures hors intervalle.
+Cette fonction vérifie si une mesure est :
+-invalide (capteur non connecté, erreur…)
+-trop basse
+-trop haute
+-ou correcte
+
+Elle renvoie un texte prêt à être enregistré dans le fichier.
+
+Cela garantit que les données enregistrées sont fiables.
 
 <7> Collecte + enregistrement SD
 ```ccp
@@ -652,5 +717,14 @@ PROCÉDURE collectData(interval)
 FIN PROCÉDURE
 ```
 Commentaire :
-Cette procédure constitue le cœur fonctionnel du système. Elle réalise l’acquisition des données, vérifie leur validité, puis les enregistre sur la carte SD à intervalles réguliers.
+C’est le cœur du système.
+
+Toutes les X secondes :
+-On lit les capteurs
+-On vérifie que les valeurs sont valides
+-On les convertit en texte
+-On les enregistre dans un fichier sur la carte SD
+-On remet le timer à zéro
+
+C’est cette procédure qui transforme l’appareil en véritable station d’acquisition de données.
 
