@@ -1,4 +1,4 @@
-## Station Météo – Projet S3E - Livrable 2 - REVEILLON Martin - PHILIPPE Mathéo - RIVIERE Léo - GANITTA Ylan
+## Station Météo – Projet S3E - Livrable 4 - REVEILLON Martin - PHILIPPE Mathéo - RIVIERE Léo - GANITTA Ylan
 
 ## Présentation du projet
 L'Agence Internationale pour la Vigilance Météorologique (AIVM) se lance dans un projet ambitieux : déployer dans les océans des navires de surveillance équipés de stations météo embarquées chargées de mesurer les paramètres influant sur la formation de cyclones ou autres catastrophes naturelles.
@@ -10,8 +10,7 @@ Un grand nombre de sociétés utilisant des transports navals ont accepté d'éq
 ---
 
 ## Objectifs
--Comprendre le fonctionnement de la station
-
+Docuementation utilisateur et technique, ainsi que des schéma de focntionnement
 -Réaliser la structure du code
 
 ---
