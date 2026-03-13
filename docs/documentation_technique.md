@@ -1,11 +1,3 @@
-# Station météo embarquée
-
-Ce projet présente une **station météo embarquée basée sur Arduino** permettant de mesurer et enregistrer plusieurs paramètres environnementaux.
-
-Les données collectées sont stockées sur une **carte SD** afin de pouvoir être analysées ultérieurement sur un ordinateur.
-
----
-
 # Sommaire
 
 - [Manuel d'utilisation](#manuel-dutilisation)
@@ -61,7 +53,7 @@ Les données sont ensuite enregistrées sur une **carte SD** afin d’être anal
 4. Attendre environ **2 minutes** pour l'initialisation des capteurs.
 5. Sélectionner un mode avec les **boutons rouge ou vert**.
 
-Une fois l'initialisation terminée, la station peut commencer l’enregistrement des données.
+Une fois l'initialisation terminée, vous pouvez passer la station en mode configuration. Une fois paramétré, vous pouvez passer en mode standard ou en mode éco et la station commence automatiquement l'enregistrement des données.
 
 ---
 
@@ -255,14 +247,16 @@ Il gère :
 
 ## Capteurs
 
-La station utilise plusieurs capteurs :
+### Capteur DHT11 :
 
-- température / humidité
-- luminosité
-- GPS
-- horloge RTC
 
-Ces capteurs fournissent les données environnementales nécessaires.
+---
+
+### Interface utilisateur
+
+L'interface utilisateur permet d'accéder aux informations de diagnostic du système directement sur l'interface LCD. Cette interface assure deux rôles principaux :
+
+- Elle permet à l'utilisateur de consulter l'heure et dans le mode dans lequel on se situe.
 
 ---
 
