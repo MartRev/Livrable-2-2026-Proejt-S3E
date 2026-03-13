@@ -15,47 +15,6 @@ Docuementation utilisateur et technique, ainsi que des schéma de focntionnement
 
 ---
 ## Contenu du document : Ce document contient les diagrammes de fonctionnement des 4 modes de la station et la tructure du code commentée.
----
-
-## Diagrammes détaillants le fonctionnement du système (les commentaires des diagrammes sont dans "code") : 
-## Mode Configuration
-
-### Description
-
-Au démarrage, si le bouton bleu est maintenu appuyé, le système entre en **mode CONFIGURATION**.
-Ce mode permet de modifier les paramètres via la liaison série (UART).
-Les capteurs sont désactivés pour éviter toute acquisition pendant la configuration.
-
-### Variables
-
-* `INACTIVITY_TIMER` : compteur mesurant la durée sans activité UART.
-* `EEPROM_PARAM` : structure contenant les paramètres système stockés en mémoire non volatile.
-* `UART_CMD` : variable contenant la commande reçue via la liaison série.
-
-### Fonctions
-
-* `DisableSensors()`
-  Désactive l’acquisition des capteurs.
-
-* `ReadUART()`
-  Lit une commande reçue sur l’interface série.
-  Retourne `0` si aucune commande n’est disponible.
-
-* `Update(EEPROM_PARAM)`
-  Met à jour les paramètres système en mémoire EEPROM.
-
-* `Reset(INACTIVITY_TIMER)`
-  Remet le compteur d’inactivité à zéro.
-
-### Fonctionnement
-
-Le système attend des commandes UART en boucle.
-Chaque commande reçue :
-
-* met à jour les paramètres,
-* remet à zéro le timer d’inactivité.
-
-Si aucune activité n’est détectée pendant 30 minutes, le système quitte automatiquement le mode CONFIGURATION et retourne en mode STANDARD.
 
 
 ```mermaid
