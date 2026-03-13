@@ -4,19 +4,19 @@ Sommaire
 
 [MANUEL D'UTILISATION](#_Toc224208863)
 
-[Introduction](#_Toc224208864)
+[ - Introduction](#_Toc224208864)
 
-[Mise en service](#_Toc224208865)
+[ - Mise en service](#_Toc224208865)
 
-[Fonctionnement](#_Toc224208866)
+[ - Fonctionnement](#_Toc224208866)
 
 [1\. Lecture des informations](#_Toc224208867)
 
 [2\. Récupération des données](#_Toc224208868)
 
-[Entretien](#_Toc224208869)
+[ - Entretien](#_Toc224208869)
 
-[Mode de fonctionnement](#_Toc224208870)
+[ - Mode de fonctionnement](#_Toc224208870)
 
 [1\. Mode Standard](#_Toc224208871)
 
@@ -26,17 +26,17 @@ Sommaire
 
 [4\. Mode économique](#_Toc224208874)
 
-[Matériel fourni](#_Toc224208875)
+[ - Matériel fourni](#_Toc224208875)
 
 [DOCUMENTATION TECHNIQUE](#_Toc224208876)
 
-[Introduction](#_Toc224208877)
+[ - Introduction](#_Toc224208877)
 
 [1\. Fonction du système](#_Toc224208878)
 
 [2\. Utilisation en mer](#_Toc224208879)
 
-[Fonctionnement](#_Toc224208880)
+[ - Fonctionnement](#_Toc224208880)
 
 [1\. Architecture](#_Toc224208881)
 
@@ -46,11 +46,11 @@ Sommaire
 
 [4\. Interface utilisateur](#_Toc224208884)
 
-[Performances du système](#_Toc224208885)
+[ - Performances du système](#_Toc224208885)
 
-[Fiabilité des données](#_Toc224208886)
+[ - Fiabilité des données](#_Toc224208886)
 
-[Annexe](#_Toc224208887)
+[ - Annexe](#_Toc224208887)
 
 # MANUEL D'UTILISATION
 
