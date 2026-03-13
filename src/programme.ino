@@ -222,4 +222,203 @@ void changerMode(Mode m, uint8_t r,uint8_t g,uint8_t b,const char* texte)
     }
 
     modeActuel = m;
-    leds.setColorRGB(0,r,g,b
+    leds.setColorRGB(0,r,g,b);
+    afficherTexteLCD(texte);
+}
+
+// === HEURE ===
+void afficherHeure()
+{
+    DateTime now = rtc.now();
+
+    if (now.year() < 2020) {
+        rtcOK = false;
+        rtcMessageShown = false;
+        return;
+    }
+
+    char buffer[10];
+    snprintf(buffer,sizeof(buffer),"%02d:%02d:%02d", now.hour(), now.minute(), now.second());
+    lcd.setCursor(0,1);
+    lcd.print(buffer);
+
+    // Indicateur GPS
+    lcd.setCursor(10,1);
+    if (gps.location.isValid()) lcd.print("GPS");
+    else lcd.print("...");
+}
+
+// === CAPTEURS ===
+void lireCapteurs()
+{
+    if(modeActuel != STANDARD && modeActuel != ECONOMIQUE) return;
+
+    static unsigned long lastSDWrite = 0;
+    unsigned long nowMs = millis();
+    unsigned long interval = (modeActuel == STANDARD) ? 15000 : 30000;
+
+    if(nowMs - lastSDWrite < interval) return;
+    lastSDWrite = nowMs;
+
+    float temperature = dht.readTemperature();
+    float humidite = dht.readHumidity();
+    int luminosite = analogRead(LIGHT_SENSOR);
+
+    bool erreurDHT = isnan(temperature) || isnan(humidite);
+    bool erreurLum = (luminosite == 0 || luminosite == 1023);
+
+    if (erreurDHT || erreurLum) {
+        afficherTexteLCD(STR_ERR_CAPTEUR);
+        clignoterErreur(225,0,0, 0,255,0, 500);
+        return;
+    }
+
+    bool gpsOK = gps.location.isValid();
+    float lat = gps.location.lat();
+    float lon = gps.location.lng();
+
+    DateTime now = rtc.now();
+
+    if (sdPleine()) {
+        sdFull = true;
+        return;
+    }
+
+    enregistrerDonnees(
+        temperature, humidite, luminosite,
+        gpsOK, lat, lon,
+        now.year(), now.month(), now.day(),
+        now.hour(), now.minute(), now.second()
+    );
+}
+
+// === SD ===
+bool sdPleine()
+{
+    File f = SD.open("donnees.csv", FILE_READ);
+    if (!f) return false;
+
+    unsigned long long taille = f.size();
+    f.close();
+
+    return (taille >= SD_MAX_SIZE);
+}
+
+void enregistrerDonnees(float t,float h,int lum,bool gpsOK,float lat,float lon,
+                        int annee,int mois,int jour,int heure,int minute,int seconde)
+{
+    if(modeActuel != STANDARD && modeActuel != ECONOMIQUE) return;
+
+    dataFile = SD.open("donnees.csv",FILE_WRITE);
+    if(!dataFile) return;
+
+    dataFile.print(annee); dataFile.print("-");
+    dataFile.print(mois);  dataFile.print("-");
+    dataFile.print(jour);  dataFile.print(" ");
+    dataFile.print(heure); dataFile.print(":");
+    dataFile.print(minute); dataFile.print(":");
+    dataFile.print(seconde); dataFile.print(";");
+
+    dataFile.print(t); dataFile.print(";");
+    dataFile.print(h); dataFile.print(";");
+    dataFile.print(lum); dataFile.print(";");
+
+    if(gpsOK){
+        dataFile.print(lat,6); dataFile.print(";");
+        dataFile.print(lon,6);
+    } else {
+        dataFile.print("NA;NA");
+    }
+
+    dataFile.println();
+    dataFile.close();
+}
+
+void fermerSD(){ if(dataFile) dataFile.close(); }
+
+bool ouvrirSD()
+{
+    if (!SD.begin(SD_CS)) {
+        sdOK = false;
+        afficherTexteLCD(STR_SD_ABSENTE);
+        return false;
+    }
+    sdOK = true;
+    return true;
+}
+
+// === CLIGNOTEMENT GENERIQUE ===
+void clignoterErreur(uint8_t r1,uint8_t g1,uint8_t b1,
+                     uint8_t r2,uint8_t g2,uint8_t b2,
+                     unsigned long interval)
+{
+    static unsigned long lastBlink = 0;
+    static bool etat = false;
+
+    unsigned long now = millis();
+
+    if (now - lastBlink >= interval)
+    {
+        lastBlink = now;
+        etat = !etat;
+
+        if (etat)
+            leds.setColorRGB(0, r1,g1,b1);
+        else
+            leds.setColorRGB(0, r2,g2,b2);
+    }
+}
+
+// === TEST RTC ===
+bool testerRTC()
+{
+    Wire.beginTransmission(0x68);
+    Wire.write(0x00);
+    if (Wire.endTransmission() != 0) return false;
+
+    Wire.requestFrom(0x68, 1);
+    if (Wire.available() < 1) return false;
+
+    uint8_t sec = Wire.read();
+
+    if (sec == 0xFF) return false;
+    if ((sec & 0x7F) > 59) return false;
+
+    return true;
+}
+
+// === BOUTONS ===
+void gererBoutons()
+{
+    if (sdFull) return;
+
+    bool redState = !digitalRead(BUTTON_RED);
+    bool greenState = !digitalRead(BUTTON_GREEN);
+    unsigned long now = millis();
+
+    if(redState && !redPressed && now - lastRedPress > DEBOUNCE_MS)
+    {
+        redPressed = true;
+        lastRedPress = now;
+
+        if(modeActuel == DEMARRAGE) changerMode(CONFIGURATION,255,255,0,STR_CONFIG);
+        else if(modeActuel == CONFIGURATION) changerMode(STANDARD,0,255,0,STR_STANDARD);
+        else if(modeActuel == STANDARD) changerMode(MAINTENANCE,255,165,0,STR_MAINT);
+        else if(modeActuel == MAINTENANCE) changerMode(STANDARD,0,255,0,STR_STANDARD);
+        else if(modeActuel == ECONOMIQUE) changerMode(MAINTENANCE,255,165,0,STR_MAINT);
+    }
+    if(!redState) redPressed = false;
+
+    if(greenState && !greenPressed && now - lastGreenPress > DEBOUNCE_MS)
+    {
+        greenPressed = true;
+        lastGreenPress = now;
+
+        if(modeActuel == DEMARRAGE) changerMode(CONFIGURATION,255,255,0,STR_CONFIG);
+        else if(modeActuel == CONFIGURATION) changerMode(STANDARD,0,255,0,STR_STANDARD);
+        else if(modeActuel == STANDARD) changerMode(ECONOMIQUE,0,0,255,STR_ECO);
+        else if(modeActuel == ECONOMIQUE) changerMode(STANDARD,0,255,0,STR_STANDARD);
+        else if(modeActuel == MAINTENANCE) changerMode(ECONOMIQUE,0,0,255,STR_ECO);
+    }
+    if(!greenState) greenPressed = false;
+}
