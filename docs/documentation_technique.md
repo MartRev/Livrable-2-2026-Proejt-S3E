@@ -58,7 +58,7 @@
 
 Cette station météo vous permet de mesurer et d'enregistrer plusieurs paramètres environnementaux afin de suivre les conditions météorologiques d'un lieu donné.
 
-### Le système collecte automatiquement les informations suivantes :
+Le système collecte automatiquement les informations suivantes :
 
 - Température ambiante
 - Humidité de l'air
