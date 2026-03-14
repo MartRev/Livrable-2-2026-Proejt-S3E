@@ -1,9 +1,9 @@
 ## Station Météo – Projet S3E - Montage en réel de la station 
 
-## Montage réel
+# Montage réel
 Pour réaliser le montage de la station, vous aurez besoin de cette liste de composant et d'outils exterieur à arduino pour un fonctionnement total.
 
-## Matériel utilisé
+# Matériel utilisé
 
 Le projet utilise les composants suivants :
 
