@@ -54,7 +54,7 @@ Le projet utilise les composants suivants :
  
 - **BreadBoard pour l'alimentation GPS et Adaptateur Micro SD**  
 
-- **12 câbles mâles-femelles pour connecter le GPS, l'Adaptateur Micro SD et leur alimentation **
+- **12 câbles mâles-femelles pour connecter le GPS, l'Adaptateur Micro SD et leur alimentation**
 
-- **6 câbles femelles-femelles universel Grove à 4 broches pour les autres capteurs  **  
+- **6 câbles femelles-femelles universel Grove à 4 broches pour les autres capteurs**  
 
