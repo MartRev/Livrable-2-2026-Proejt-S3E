@@ -277,6 +277,8 @@ Le système intègre plusieurs mécanismes :
 
 ## Annexe
 
+En cas de panne d'un composant, vous retrouverez tous les liens d'achat afin de les remplacer :
+
 | Numéro | Composant | Référence |
 |------|------|------|
 | 1 | LED | Grove Chainable RGB LED v2.0 |
