@@ -58,3 +58,8 @@ Le projet utilise les composants suivants :
 
 - **6 câbles femelles-femelles universel Grove à 4 broches pour les autres capteurs**  
 
+## Schéma de montage
+
+Le montage se fait ensuite en commançant par la carte
+
+![Schéma de montage](docs/Schéma%20montage%20complet.drawio.png)
