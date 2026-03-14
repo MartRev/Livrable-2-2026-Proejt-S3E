@@ -27,6 +27,10 @@
 
 ---
 
+![Schéma de câblage](images/image-manuel.png)
+
+---
+
 # Manuel d'utilisation
 
 ## Introduction
