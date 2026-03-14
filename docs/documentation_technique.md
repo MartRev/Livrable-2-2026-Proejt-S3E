@@ -268,7 +268,7 @@ Le **capteur DHT11** permet d'acquérir les données de température et d'humidi
 - Mesure d'humidité 20% - 90%
 - Précisions d'humidité ±5 %
 
-<img src="../images/Image2.jpg" width="300">
+<img src="../images/Image2.jpg" width="180">
 
 ---
 
