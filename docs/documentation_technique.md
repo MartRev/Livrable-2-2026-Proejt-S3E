@@ -147,6 +147,8 @@ Dans ce mode :
 
 Pour quitter ce mode, il suffit de sélectionner un autre mode avec les boutons.
 
+![Image manuel](../images/image1.jpg)
+
 ---
 
 ## Mode maintenance
