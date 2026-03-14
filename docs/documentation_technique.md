@@ -266,6 +266,8 @@ Le **capteur DHT11** permet d'acquérir les données de température et d'humidi
 - Mesure d'humidité 20% - 90%
 - Précisions d'humidité ±5 %
 
+![Image manuel](../images/Image2.jpg)
+
 ---
 
 ### Capteur de luminosité LM358 :
@@ -276,6 +278,8 @@ Tension de fonctionnement : 3 ~ 5 V
 - Courant de fonctionnement : 0,5 ~ 3 mA
 - Temps de réponse : 20 à 30 millisecondes
 - Longueur d'onde max (pic de sensibilité) : 540 nm
+
+![Image manuel](../images/Image3.jpg)
 
 ---
 
@@ -292,6 +296,8 @@ Précision :
 - Vitesse : 0,1 m/s
 - Dimensions interface GPS : 40 x 20 mm
 
+![Image manuel](../images/Image4.jpg)
+
 ---
 
 ### Le Dual Button :
@@ -300,11 +306,15 @@ Cet écran permet d'afficher jusqu'à 32 caractères, avec prise en charge des a
 
 Ce Dual Button comprend 2 boutons, permettant de contrôler deux canaux de signal avec un seul module Grove et 2 touches de couleurs différentes. Ces boutons sont connectés par un port de sortie numérique du microcontrôleur.
 
+![Image manuel](../images/Image5.jpg)
+
 ---
 
 ### L'horloge RTC DS1307 :
 
 **Le module RTC** (Real Time Clock) assure une disponibilité immédiate de l'heure pour le système, tandis que l'heure fournie par le GPS dépend de la réception et de la synchronisation avec les satellites. Cette horloge a la capacité d'horodater les mesures enregistrer sur la carte SD. Le bus de communication utilisé par ce périphérique est le bus I2C. Il permet de communiquer avec le microcontrôleur avec seulement deux fils par un port d'entrée du microcontrôleur.
+
+![Image manuel](../images/Image6.jpg)
 
 ---
 
@@ -323,6 +333,8 @@ L'adaptateur micro SD utilise l'interface SPI pour la communication, ce qui sign
 - VCC : Alimentation (5V ou 3.3V selon le module).
 - GND : Masse.
 
+![Image manuel](../images/Image7.jpg)
+
 ---
 
 ### Interface utilisateur
@@ -330,6 +342,8 @@ L'adaptateur micro SD utilise l'interface SPI pour la communication, ce qui sign
 L'interface utilisateur permet d'accéder aux informations de diagnostic du système directement sur l'interface LCD. Cette interface assure deux rôles principaux :
 
 - Elle permet à l'utilisateur de consulter l'heure et dans le mode dans lequel on se situe.
+
+![Image manuel](../images/Image8.jpg)
 
 ---
 
