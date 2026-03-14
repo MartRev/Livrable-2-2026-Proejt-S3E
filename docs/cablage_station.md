@@ -7,10 +7,10 @@ Pour réaliser le montage de la station, vous aurez besoin de cette liste de com
 
 Le projet utilise les composants suivants :
 
-- **Carte Arduino Uno R3**  
+- **Carte Arduino Uno R3 + câble d'alimentation Arduino**  
   - Le programme est stocké directement sur la carte.
 
-- **Base Shield Arduino**  
+- **Base Shield Grove Arduino**  
   - Sélecteur configuré sur **5V**
 
 - **Dual Button**
