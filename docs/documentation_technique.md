@@ -281,7 +281,7 @@ Tension de fonctionnement : 3 ~ 5 V
 - Temps de réponse : 20 à 30 millisecondes
 - Longueur d'onde max (pic de sensibilité) : 540 nm
 
-![Image manuel](../images/Image3.jpg)
+<img src="../images/Image3.jpg" width="180">
 
 ---
 
@@ -298,7 +298,7 @@ Précision :
 - Vitesse : 0,1 m/s
 - Dimensions interface GPS : 40 x 20 mm
 
-![Image manuel](../images/Image4.jpg)
+<img src="../images/Image4.jpg" width="180">
 
 ---
 
@@ -308,7 +308,7 @@ Cet écran permet d'afficher jusqu'à 32 caractères, avec prise en charge des a
 
 Ce Dual Button comprend 2 boutons, permettant de contrôler deux canaux de signal avec un seul module Grove et 2 touches de couleurs différentes. Ces boutons sont connectés par un port de sortie numérique du microcontrôleur.
 
-![Image manuel](../images/Image5.jpg)
+<img src="../images/Image5.jpg" width="180">
 
 ---
 
@@ -316,7 +316,7 @@ Ce Dual Button comprend 2 boutons, permettant de contrôler deux canaux de signa
 
 **Le module RTC** (Real Time Clock) assure une disponibilité immédiate de l'heure pour le système, tandis que l'heure fournie par le GPS dépend de la réception et de la synchronisation avec les satellites. Cette horloge a la capacité d'horodater les mesures enregistrer sur la carte SD. Le bus de communication utilisé par ce périphérique est le bus I2C. Il permet de communiquer avec le microcontrôleur avec seulement deux fils par un port d'entrée du microcontrôleur.
 
-![Image manuel](../images/Image6.jpg)
+<img src="../images/Image6.jpg" width="180">
 
 ---
 
@@ -335,7 +335,7 @@ L'adaptateur micro SD utilise l'interface SPI pour la communication, ce qui sign
 - VCC : Alimentation (5V ou 3.3V selon le module).
 - GND : Masse.
 
-![Image manuel](../images/Image7.jpg)
+<img src="../images/Image7.jpg" width="180">
 
 ---
 
@@ -345,7 +345,7 @@ L'interface utilisateur permet d'accéder aux informations de diagnostic du syst
 
 - Elle permet à l'utilisateur de consulter l'heure et dans le mode dans lequel on se situe.
 
-![Image manuel](../images/Image8.jpg)
+<img src="../images/Image8.jpg" width="180">
 
 ---
 
