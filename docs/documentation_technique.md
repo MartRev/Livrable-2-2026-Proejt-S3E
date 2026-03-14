@@ -27,7 +27,7 @@
 
 ---
 
-![Image manuel](images/image-manuel.png)
+![Image manuel](../images/image-manuel.png)
 
 ---
 
