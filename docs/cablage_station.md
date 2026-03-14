@@ -20,7 +20,11 @@ Le projet utilise les composants suivants :
   - Communication **I2C**
 
 - **Module GPS**
-  - Connecté sur **D8**
+  - Connexions :
+    - **TX** → Digital **10**
+    - **RX** → Digital **13**
+    - **VCC** → **5V**
+    - **GND** → **GND**
 
 - **Capteur de température et d’humidité**
   - Connecté sur **D2**
@@ -47,3 +51,10 @@ Le projet utilise les composants suivants :
 
 - **Adaptateur Micro SD vers USB**
   - Utilisé pour lire la carte SD depuis un ordinateur
+ 
+- **BreadBoard pour l'alimentation GPS et Adaptateur Micro SD**  
+
+- **12 câbles mâles-femelles pour connecter le GPS, l'Adaptateur Micro SD et leur alimentation **
+
+- **6 câbles femelles-femelles universel Grove à 4 broches pour les autres capteurs  **  
+
