@@ -147,7 +147,7 @@ Dans ce mode :
 
 Pour quitter ce mode, il suffit de sélectionner un autre mode avec les boutons.
 
-![Image manuel](../images/image1.jpg)
+![Image manuel](../images/Image1.jpg)
 
 ---
 
