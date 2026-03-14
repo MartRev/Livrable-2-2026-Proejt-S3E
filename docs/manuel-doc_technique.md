@@ -241,7 +241,11 @@ La carte Arduino :
 - traite les informations
 - enregistre les mesures.
 
-![Image manuel](../images/Image9.jpg)
+
+<p align="center">
+  <img src="../images/Image9.jpg" width="400"><br>
+  <em>Schéma d’architecture</em>
+</p>
 
 ---
 
