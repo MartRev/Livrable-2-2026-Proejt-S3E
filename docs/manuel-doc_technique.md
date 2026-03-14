@@ -243,7 +243,7 @@ La carte Arduino :
 
 
 <p align="center">
-  <img src="../images/Image9.jpg" width="400"><br>
+  <img src="../images/Image9.jpg" width="800"><br>
   <em>Schéma d’architecture</em>
 </p>
 
