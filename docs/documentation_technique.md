@@ -241,6 +241,8 @@ La carte Arduino :
 - traite les informations
 - enregistre les mesures.
 
+![Image manuel](../images/Image9.jpg)
+
 ---
 
 ## Cœur du système
@@ -266,7 +268,7 @@ Le **capteur DHT11** permet d'acquérir les données de température et d'humidi
 - Mesure d'humidité 20% - 90%
 - Précisions d'humidité ±5 %
 
-![Image manuel](../images/Image2.jpg)
+<img src="../images/Image2.jpg" width="300">
 
 ---
 
