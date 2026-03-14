@@ -65,5 +65,5 @@ Le montage se fait ensuite en commançant par la carte
 ## Schéma de montage
 
 <p align="center">
-  <img src="docs/schema-montage-complet.png" width="800">
+  <img src="../images/schema-montage-complet.png" width="800">
 </p>
