@@ -1,7 +1,49 @@
 ## Station Météo – Projet S3E - Montage en réel de la station 
 
-## Présentation du projet
-L'Agence Internationale pour la Vigilance Météorologique (AIVM) se lance dans un projet ambitieux : déployer dans les océans des navires de surveillance équipés de stations météo embarquées chargées de mesurer les paramètres influant sur la formation de cyclones ou autres catastrophes naturelles.
+## Montage réel
+Pour réaliser le montage de la station, vous aurez besoin de cette liste de composant et d'outils exterieur à arduino pour un fonctionnement total.
 
-Un grand nombre de sociétés utilisant des transports navals ont accepté d'équiper leurs bateaux avec ces stations embarquées. En revanche, ces dernières devront être simples et efficaces et pilotables par un des membres de l'équipage (une documentation technique utilisateur sera mise à disposition).
+## Matériel utilisé
 
+Le projet utilise les composants suivants :
+
+- **Carte Arduino Uno R3**  
+  - Le programme est stocké directement sur la carte.
+
+- **Base Shield Arduino**  
+  - Sélecteur configuré sur **5V**
+
+- **Dual Button**
+  - Connecté sur **D6**
+
+- **Module RTC (Real Time Clock)**
+  - Communication **I2C**
+
+- **Module GPS**
+  - Connecté sur **D8**
+
+- **Capteur de température et d’humidité**
+  - Connecté sur **D2**
+
+- **Capteur de luminosité**
+  - Connecté sur **A0**
+
+- **LED RGB**
+  - Entrée **IN** connectée sur **D4**
+
+- **Écran LCD**
+  - Communication **I2C**
+
+- **Adaptateur Micro SD**
+  - Connexions :
+    - **CS** → Digital **10**
+    - **SCK** → Digital **13**
+    - **MOSI** → Digital **11**
+    - **MISO** → Digital **12**
+    - **VCC** → **5V**
+    - **GND** → **GND**
+  
+- **Carte Micro SD (32 Go)**
+
+- **Adaptateur Micro SD vers USB**
+  - Utilisé pour lire la carte SD depuis un ordinateur
