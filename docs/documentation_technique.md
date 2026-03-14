@@ -266,6 +266,8 @@ Le **capteur DHT11** permet d'acquérir les données de température et d'humidi
 - Mesure d'humidité 20% - 90%
 - Précisions d'humidité ±5 %
 
+---
+
 ### Capteur de luminosité LM358 :
 
 Capteur de luminosité **LM358** est utilisé pour traiter ou adapter le signal provenant du capteur de luminosité **analogique**. Capteur permettant de mesurer l'intensité de la lumière ambiante. Ce capteur est basé sur une **photorésistance (LDR)** dont la résistance électrique varie en fonction de l'intensité lumineuse reçue.
@@ -275,6 +277,7 @@ Tension de fonctionnement : 3 ~ 5 V
 - Temps de réponse : 20 à 30 millisecondes
 - Longueur d'onde max (pic de sensibilité) : 540 nm
 
+---
 
 ### Le module GPS V1.2 :
 
@@ -289,15 +292,21 @@ Précision :
 - Vitesse : 0,1 m/s
 - Dimensions interface GPS : 40 x 20 mm
 
+---
+
 ### Le Dual Button :
 
 Cet écran permet d'afficher jusqu'à 32 caractères, avec prise en charge des alphabets anglais, japonais et grec. Idéal pour l'affichage de la température ou de l'heure, ou tout autre projet nécessitant un affichage simple. Cet appareil, communique avec le microcontrôleur via un bus I2C, utilisant seulement deux fils pour la communication par un port d'entrée du microcontrôleur.
 
 Ce Dual Button comprend 2 boutons, permettant de contrôler deux canaux de signal avec un seul module Grove et 2 touches de couleurs différentes. Ces boutons sont connectés par un port de sortie numérique du microcontrôleur.
 
+---
+
 ### L'horloge RTC DS1307 :
 
 **Le module RTC** (Real Time Clock) assure une disponibilité immédiate de l'heure pour le système, tandis que l'heure fournie par le GPS dépend de la réception et de la synchronisation avec les satellites. Cette horloge a la capacité d'horodater les mesures enregistrer sur la carte SD. Le bus de communication utilisé par ce périphérique est le bus I2C. Il permet de communiquer avec le microcontrôleur avec seulement deux fils par un port d'entrée du microcontrôleur.
+
+---
 
 ### Stockage des données :
 
