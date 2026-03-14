@@ -194,6 +194,10 @@ Les mesures restantes sont effectuées **moins fréquemment** afin d’économis
 
 ---
 
+![Image manuel](../images/image-DocTech.png)
+
+---
+
 # Documentation technique
 
 ## Introduction technique
