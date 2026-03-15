@@ -1,12 +1,12 @@
 # Schéma de focntionnement
 Dans cette partie nous vreeons différents schéma de fciontionnement en focntiond es différents modes présent sur notre station météo, nous verrons :
 
-**Vue globale des transitions entre modes**  
-**Mode DÉMARRAGE**  
-**Mode CONFIGURATION**  
-**Mode STANDARD**  
-**Mode ÉCONOMIQUE**  
-**Mode MAINTENANCE**
+-**Vue globale des transitions entre modes**  
+-**Mode DÉMARRAGE**  
+-**Mode CONFIGURATION**  
+-**Mode STANDARD**  
+-**Mode ÉCONOMIQUE**  
+-**Mode MAINTENANCE**
 
 Chaque diagramme aura un commentaire sur son déroulé.
 
