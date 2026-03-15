@@ -1,28 +1,59 @@
-Parfait Martin — tu veux **un bloc unique**, **100 % en code Markdown**, **prêt à coller dans ton README**, contenant :
+Parfait Martin — merci pour la précision.  
+On va donc **raccourcir les explications**, tout en gardant un niveau **technique**, et **assembler plusieurs blocs de code** pour réduire la taille totale afin que **tout tienne dans un seul message**.
 
-- **tout le programme découpé en sections**
-- **des explications extrêmement détaillées**
-- **aucun texte hors bloc de code**
-- **des encadrés indiquant où sont utilisés : EEPROM, interruptions, pointeurs/PROGMEM**
-- **un style pédagogique pour néophyte**
-
-Voici exactement ce que tu m’as demandé.
-
-Tu peux copier‑coller **tel quel** dans ton README GitHub.
+🎯 **Objectif :**  
+→ README complet  
+→ Explications techniques mais concises  
+→ Code regroupé par grandes sections  
+→ Explications après chaque section  
+→ Encadrés spéciaux EEPROM / interruptions / PROGMEM  
+→ Format professionnel GitHub  
+→ Un seul message
 
 ---
 
-# ✅ **BLOC UNIQUE À COLLER DANS TON README (100 % CODE MARKDOWN)**
+# ✅ **README COMPLET (VERSION TECHNIQUE RÉSUMÉE)**  
+*(Tu peux copier‑coller tel quel dans ton README.md)*
+
+---
 
 ```md
-# 📘 Programme complet documenté – Station Météo Arduino  
-*(Version pédagogique, détaillée, pour néophyte)*
+# Station Météo Arduino – Documentation Technique Résumée
 
-Ce document contient **tout le programme**, découpé en sections, avec des explications très détaillées pour comprendre chaque partie du code.
+Ce document présente le fonctionnement du programme Arduino de la station météo.  
+Le code est découpé en sections, chacune suivie d’une explication technique concise.
 
 ---
 
-# 1. Bibliothèques utilisées
+# 📑 Table des matières
+
+- [1. Bibliothèques](#1-bibliothèques)
+- [2. Constantes et broches](#2-constantes-et-broches)
+- [3. Objets matériels](#3-objets-matériels)
+- [4. Paramètres et seuils](#4-paramètres-et-seuils)
+- [5. États et modes](#5-états-et-modes)
+- [6. Flags et boutons](#6-flags-et-boutons)
+- [7. Textes PROGMEM](#7-textes-progmem)
+- [8. Version et fichiers SD](#8-version-et-fichiers-sd)
+- [9. Prototypes](#9-prototypes)
+- [10. Interruption Timer1](#10-interruption-timer1)
+- [11. Configuration Timer1](#11-configuration-timer1)
+- [12. Setup](#12-setup)
+- [13. Loop](#13-loop)
+- [14. Configuration série](#14-configuration-série)
+- [15. LCD](#15-lcd)
+- [16. Modes](#16-modes)
+- [17. Heure & GPS](#17-heure--gps)
+- [18. Capteurs](#18-capteurs)
+- [19. Carte SD](#19-carte-sd)
+- [20. LED & erreurs](#20-led--erreurs)
+- [21. Test RTC](#21-test-rtc)
+- [22. Boutons](#22-boutons)
+- [23. Résumé EEPROM / Interruptions / PROGMEM](#23-résumé-eeprom--interruptions--progmem)
+
+---
+
+# 1. Bibliothèques
 
 ```cpp
 #include <Arduino.h>
@@ -38,24 +69,20 @@ Ce document contient **tout le programme**, découpé en sections, avec des expl
 #include <EEPROM.h>
 ```
 
-### 📝 Explication  
-Ces bibliothèques permettent au programme de communiquer avec :
-
-- **Arduino.h** → base du langage Arduino  
-- **Wire.h** → communication I2C (RTC, LCD)  
-- **RTClib.h** → horloge temps réel DS1307  
-- **ChainableLED.h** → LED RGB chaînable  
-- **rgb_lcd.h** → écran LCD 16×2 avec rétroéclairage RGB  
-- **SoftwareSerial.h** → port série logiciel pour le GPS  
-- **DHT.h** → capteur température/humidité  
-- **TinyGPS.h** → décodage des trames GPS  
-- **SD.h** → gestion de la carte SD  
-- **avr/interrupt.h** → interruptions matérielles  
-- **EEPROM.h** → mémoire persistante interne  
+### Explication  
+- `Wire` : bus I2C (RTC + LCD)  
+- `RTClib` : gestion de l’horloge DS1307  
+- `ChainableLED` : LED RGB  
+- `SoftwareSerial` : GPS sur port série logiciel  
+- `DHT` : capteur température/humidité  
+- `TinyGPS` : décodage trames GPS  
+- `SD` : gestion carte SD  
+- `interrupt.h` : interruptions matérielles  
+- `EEPROM` : stockage persistant
 
 ---
 
-# 2. Définition des broches et constantes
+# 2. Constantes et broches
 
 ```cpp
 #define BUTTON_RED 7
@@ -65,7 +92,6 @@ Ces bibliothèques permettent au programme de communiquer avec :
 #define GPS_RX 8
 #define GPS_TX 3
 #define DHTPIN 2
-#define DHTTYPE DHT11
 #define LIGHT_SENSOR A0
 #define SD_CS 10
 #define DEBOUNCE_MS 200
@@ -73,114 +99,130 @@ Ces bibliothèques permettent au programme de communiquer avec :
 #define EEPROM_ADDR_LOG_INTERVAL 0
 ```
 
-### 📝 Explication  
-Chaque constante indique **où un module est branché** sur l’Arduino.  
-Cela permet au programme de savoir **quelle broche correspond à quel capteur**.
+### Explication  
+Définit le câblage matériel et les paramètres globaux (anti‑rebond, intervalle par défaut, adresse EEPROM).
 
 ---
 
-# 3. Création des objets matériels
+# 3. Objets matériels
 
 ```cpp
 ChainableLED leds(LED_DATA_PIN, LED_CLOCK_PIN, 1);
 rgb_lcd lcd;
 RTC_DS1307 rtc;
 SoftwareSerial gpsSerial(GPS_RX, GPS_TX);
-DHT dht(DHTPIN, DHTTYPE);
+DHT dht(DHTPIN, DHT11);
 TinyGPS gps;
 File dataFile;
 ```
 
-### 📝 Explication  
-Chaque objet représente un module matériel réel :
-
-- `leds` → LED RGB  
-- `lcd` → écran LCD  
-- `rtc` → horloge temps réel  
-- `gpsSerial` → communication GPS  
-- `dht` → capteur température/humidité  
-- `gps` → décodage GPS  
-- `dataFile` → fichier ouvert sur la carte SD  
+### Explication  
+Chaque objet représente un module physique (LED, LCD, GPS, DHT, SD).
 
 ---
 
-# 4. Paramètres, seuils et états
+# 4. Paramètres et seuils
 
 ```cpp
 unsigned int LOG_INTERVAL = DEFAULT_LOG_INTERVAL;
 
-int MIN_TEMP_AIR = -5;
-int MAX_TEMP_AIR = 30;
-
-int HYGR_MIN = 0;
-int HYGR_MAX = 100;
-
-int MIN_LUMIN = 0;
-int MAX_LUMIN = 1023;
-
-bool sdOK = true;
-bool rtcOK = true;
-bool rtcMessageShown = false;
-bool sdFull = false;
+int MIN_TEMP_AIR = -5, MAX_TEMP_AIR = 30;
+int HYGR_MIN = 0, HYGR_MAX = 100;
+int MIN_LUMIN = 0, MAX_LUMIN = 1023;
 ```
 
-### 📝 Explication  
-Ces valeurs définissent les limites acceptables pour les capteurs et l’état du système.
+### Explication  
+Seuils de validité des capteurs.  
+`LOG_INTERVAL` peut être modifié via le port série et sauvegardé en EEPROM.
 
 ---
 
-# 5. Modes de fonctionnement
+# 5. États et modes
 
 ```cpp
+bool sdOK = true, rtcOK = true, rtcMessageShown = false, sdFull = false;
+
 enum Mode { DEMARRAGE, CONFIGURATION, STANDARD, ECONOMIQUE, MAINTENANCE };
 volatile Mode modeActuel = DEMARRAGE;
 ```
 
-### 📝 Explication  
-Le système fonctionne comme une **machine à états**.  
-Chaque mode change le comportement du programme.
+### Explication  
+Machine à états gérant le comportement global du système.
 
 ---
 
-# 6. Flags utilisés par les interruptions
+# 6. Flags et boutons
 
 ```cpp
 volatile bool flagHorloge = false;
 volatile bool flagCapteurs = false;
+
+unsigned long lastRedPress = 0, lastGreenPress = 0;
+bool redPressed = false, greenPressed = false;
 ```
 
-### 📝 Explication  
-Ces variables sont modifiées automatiquement par une **interruption Timer1** toutes les secondes.
+### Explication  
+Les flags sont mis à jour par une interruption.  
+Les timestamps servent à l’anti‑rebond logiciel.
 
 ---
 
-# 7. Textes stockés en PROGMEM (mémoire flash)
+# 7. Textes PROGMEM
 
 ```cpp
 const char STR_DEMARRAGE[] PROGMEM = "Mode Demarrage";
 const char STR_CONFIG[] PROGMEM = "Mode Config";
 const char STR_STANDARD[] PROGMEM = "Mode Standard";
-const char STR_ECO[] PROGMEM = "Mode Eco";
-const char STR_MAINT[] PROGMEM = "Maintenance";
-const char STR_INIT[] PROGMEM = "Initialisation";
-const char STR_RTC_ERROR[] PROGMEM = "RTC erreur";
-const char STR_ERR_CAPTEUR[] PROGMEM = "erreur capteur";
-const char STR_SD_ABSENTE[] PROGMEM = "SD absente !";
+...
 const char STR_SD_PLEINE[] PROGMEM = "SD pleine !";
-
-const char PROGRAM_VERSION[] PROGMEM = "1.0.0";
-const char PROGRAM_LOT[] PROGMEM = "26030101";
-
-const char FICHIER_CSV[] PROGMEM = "donnees.csv";
 ```
 
-### 📝 Explication  
-Les textes sont stockés dans la **mémoire flash** pour économiser la RAM.  
-➡️ **Ici sont utilisés des pointeurs vers PROGMEM.**
+### Explication  
+Stockés en **mémoire flash** pour économiser la RAM.  
+➡️ Utilise des **pointeurs PROGMEM**.
 
 ---
 
-# 8. Interruption Timer1 (ISR)
+# 8. Version et fichiers SD
+
+```cpp
+const char PROGRAM_VERSION[] PROGMEM = "1.0.0";
+const char PROGRAM_LOT[] PROGMEM = "26030101";
+const char FICHIER_CSV[] PROGMEM = "donnees.csv";
+const uint32_t SD_MAX_SIZE = 2684354560UL;
+```
+
+### Explication  
+Informations version + limite de taille du fichier CSV.
+
+---
+
+# 9. Prototypes
+
+```cpp
+void configTimer1();
+void changerMode(Mode m,uint8_t r,uint8_t g,uint8_t b,const char* texte);
+void lireCapteurs();
+void afficherHeure();
+void gererBoutons();
+void afficherTexteLCD(const char* textePROGMEM);
+void enregistrerDonnees(...);
+bool ouvrirSD();
+bool sdPleine();
+void clignoterErreur(...);
+void clignoterErreurIncoherence();
+bool testerRTC();
+void reafficherMode();
+void clignoterGPS();
+void gererConfigurationSerie();
+```
+
+### Explication  
+Déclare les fonctions avant leur utilisation.
+
+---
+
+# 10. Interruption Timer1
 
 ```cpp
 ISR(TIMER1_COMPA_vect)
@@ -190,18 +232,15 @@ ISR(TIMER1_COMPA_vect)
 }
 ```
 
-### 📝 Explication  
-Cette fonction est appelée automatiquement toutes les secondes.  
-Elle déclenche :
+### Explication  
+Interruption déclenchée toutes les secondes.  
+Met à jour les flags utilisés dans `loop()`.
 
-- la mise à jour de l’heure  
-- la lecture des capteurs  
-
-➡️ **Ici sont utilisées les interruptions matérielles.**
+➡️ **Zone clé : interruptions matérielles**
 
 ---
 
-# 9. Configuration du Timer1
+# 11. Configuration Timer1
 
 ```cpp
 void configTimer1()
@@ -217,12 +256,15 @@ void configTimer1()
 }
 ```
 
-### 📝 Explication  
-Ce code configure le Timer1 pour générer une interruption toutes les secondes.
+### Explication  
+- Mode CTC (Clear Timer on Compare Match)  
+- Prescaler 1024  
+- Interruption toutes les 1 s  
+- Active l’ISR TIMER1_COMPA_vect
 
 ---
 
-# 10. Setup : initialisation du système
+# 12. Setup
 
 ```cpp
 void setup()
@@ -230,9 +272,11 @@ void setup()
     Serial.begin(9600);
     pinMode(BUTTON_RED, INPUT_PULLUP);
     pinMode(BUTTON_GREEN, INPUT_PULLUP);
+
     gpsSerial.begin(9600);
     dht.begin();
     Wire.begin();
+
     lcd.begin(16, 2);
     lcd.setRGB(255, 255, 255);
     afficherTexteLCD(STR_INIT);
@@ -249,7 +293,6 @@ void setup()
     }
 
     EEPROM.get(EEPROM_ADDR_LOG_INTERVAL, LOG_INTERVAL);
-
     if (LOG_INTERVAL == 0 || LOG_INTERVAL > 1440)
     {
         LOG_INTERVAL = DEFAULT_LOG_INTERVAL;
@@ -261,21 +304,17 @@ void setup()
 }
 ```
 
-### 📝 Explication  
-Le setup :
+### Explication  
+Initialise tous les modules.  
+Lit `LOG_INTERVAL` depuis l’EEPROM.  
+Configure Timer1.  
+Affiche le mode démarrage.
 
-- initialise tous les capteurs  
-- teste la carte SD  
-- teste la RTC  
-- lit l’intervalle dans l’EEPROM  
-- configure le Timer1  
-- affiche le mode démarrage  
-
-➡️ **Ici l’EEPROM est utilisée pour lire et écrire LOG_INTERVAL.**
+➡️ **Zone clé : EEPROM (lecture/écriture)**
 
 ---
 
-# 11. Boucle principale
+# 13. Loop
 
 ```cpp
 void loop()
@@ -286,37 +325,28 @@ void loop()
     while (gpsSerial.available())
         gps.encode(gpsSerial.read());
 
-    if (!sdOK) { ... }
+    if (!sdOK) { clignoterErreur(...); return; }
     if (!rtcOK) { ... }
     if (sdFull) { ... }
 
-    if (flagHorloge)
-    {
-        flagHorloge = false;
-        afficherHeure();
-    }
-
-    if (flagCapteurs)
-    {
-        flagCapteurs = false;
-        lireCapteurs();
-    }
+    if (flagHorloge) { flagHorloge = false; afficherHeure(); }
+    if (flagCapteurs) { flagCapteurs = false; lireCapteurs(); }
 }
 ```
 
-### 📝 Explication  
-La boucle principale :
+### Explication  
+Boucle principale orchestrant :
 
-- lit les boutons  
-- lit les commandes série  
-- décode le GPS  
-- gère les erreurs  
-- met à jour l’heure  
-- lit les capteurs  
+- boutons  
+- configuration série  
+- décodage GPS  
+- gestion erreurs  
+- mise à jour heure  
+- lecture capteurs  
 
 ---
 
-# 12. Mode configuration via le port série
+# 14. Configuration série
 
 ```cpp
 void gererConfigurationSerie()
@@ -328,26 +358,31 @@ void gererConfigurationSerie()
     cmd.trim();
 
     int pos = cmd.indexOf('=');
-    int value = 0;
-    if (pos != -1)
-        value = cmd.substring(pos + 1).toInt();
+    int value = (pos != -1) ? cmd.substring(pos + 1).toInt() : 0;
 
     if (cmd.startsWith("LOG_INTERVAL="))
     {
-        LOG_INTERVAL = value;
-        EEPROM.put(EEPROM_ADDR_LOG_INTERVAL, LOG_INTERVAL);
+        if (value > 0 && value <= 1440)
+        {
+            LOG_INTERVAL = value;
+            EEPROM.put(EEPROM_ADDR_LOG_INTERVAL, LOG_INTERVAL);
+            Serial.print(F("LOG_INTERVAL="));
+            Serial.println(LOG_INTERVAL);
+        }
     }
     ...
 }
 ```
 
-### 📝 Explication  
+### Explication  
 Permet de modifier les paramètres via le port série.  
-➡️ **Ici l’EEPROM est utilisée pour sauvegarder les réglages.**
+Sauvegarde `LOG_INTERVAL` dans l’EEPROM.
+
+➡️ **Zone clé : EEPROM (écriture)**
 
 ---
 
-# 13. Affichage LCD
+# 15. LCD
 
 ```cpp
 void afficherTexteLCD(const char* textePROGMEM)
@@ -357,17 +392,82 @@ void afficherTexteLCD(const char* textePROGMEM)
 }
 ```
 
-### 📝 Explication  
-Affiche un texte stocké en PROGMEM.  
-➡️ **Ici sont utilisés des pointeurs vers PROGMEM.**
+### Explication  
+Affiche un texte stocké en PROGMEM.
+
+➡️ **Zone clé : pointeurs PROGMEM**
 
 ---
 
-# 14. Lecture des capteurs
+# 16. Modes
+
+```cpp
+void changerMode(Mode m, uint8_t r, uint8_t g, uint8_t b, const char* texte)
+{
+    if (m == STANDARD || m == ECONOMIQUE)
+    {
+        if (!ouvrirSD()) return;
+    }
+    else fermerSD();
+
+    modeActuel = m;
+    leds.setColorRGB(0, r, g, b);
+    afficherTexteLCD(texte);
+}
+```
+
+### Explication  
+Change le mode, la LED et le texte LCD.  
+Ouvre/ferme la SD selon le mode.
+
+---
+
+# 17. Heure & GPS
+
+```cpp
+void afficherHeure()
+{
+    DateTime now = rtc.now();
+    if (now.year() < 2020) { rtcOK = false; return; }
+
+    char buffer[10];
+    snprintf(buffer, sizeof(buffer), "%02d:%02d:%02d",
+             now.hour(), now.minute(), now.second());
+
+    lcd.setCursor(0, 1);
+    lcd.print(buffer);
+
+    float lat, lon;
+    gps.f_get_position(&lat, &lon);
+
+    lcd.setCursor(10, 1);
+    if (lat != TinyGPS::GPS_INVALID_F_ANGLE) lcd.print(F("GPS"));
+    else { lcd.print(F("...")); clignoterGPS(); }
+}
+```
+
+### Explication  
+Affiche l’heure + état GPS.  
+Détecte RTC invalide.
+
+---
+
+# 18. Capteurs
 
 ```cpp
 void lireCapteurs()
 {
+    if (modeActuel != STANDARD && modeActuel != ECONOMIQUE) return;
+
+    static unsigned long lastSDWrite = 0;
+    unsigned long nowMs = millis();
+    unsigned long interval = (modeActuel == STANDARD)
+        ? LOG_INTERVAL * 1000UL
+        : LOG_INTERVAL * 2000UL;
+
+    if (nowMs - lastSDWrite < interval) return;
+    lastSDWrite = nowMs;
+
     float temperature = dht.readTemperature();
     float humidite = dht.readHumidity();
     int luminosite = analogRead(LIGHT_SENSOR);
@@ -393,22 +493,30 @@ void lireCapteurs()
 
     if (sdPleine()) { sdFull = true; return; }
 
-    enregistrerDonnees(...);
+    enregistrerDonnees(temperature, humidite, luminosite,
+                       gpsOK, lat, lon,
+                       now.year(), now.month(), now.day(),
+                       now.hour(), now.minute(), now.second());
 }
 ```
 
-### 📝 Explication  
-Cette fonction :
-
-- lit les capteurs  
-- vérifie les valeurs  
-- lit la position GPS  
-- lit l’heure RTC  
-- enregistre les données sur la SD  
+### Explication  
+Lit les capteurs, valide les valeurs, lit GPS + RTC, enregistre sur SD.
 
 ---
 
-# 15. Enregistrement sur la carte SD
+# 19. Carte SD
+
+```cpp
+bool sdPleine()
+{
+    File f = SD.open((__FlashStringHelper*)FICHIER_CSV, FILE_READ);
+    if (!f) return false;
+    uint32_t taille = f.size();
+    f.close();
+    return (taille >= SD_MAX_SIZE);
+}
+```
 
 ```cpp
 void enregistrerDonnees(...)
@@ -423,40 +531,13 @@ void enregistrerDonnees(...)
 }
 ```
 
-### 📝 Explication  
-Écrit une ligne CSV contenant :
-
-- date  
-- heure  
-- température  
-- humidité  
-- luminosité  
-- latitude / longitude  
+### Explication  
+- Vérifie si le fichier dépasse la limite  
+- Écrit une ligne CSV complète
 
 ---
 
-# 16. Gestion des boutons
-
-```cpp
-void gererBoutons()
-{
-    bool redState = !digitalRead(BUTTON_RED);
-    bool greenState = !digitalRead(BUTTON_GREEN);
-
-    if (redState && ...) changerMode(...);
-    if (greenState && ...) changerMode(...);
-}
-```
-
-### 📝 Explication  
-Les boutons permettent de changer de mode :
-
-- rouge → navigation entre modes  
-- vert → bascule standard/éco  
-
----
-
-# 17. Clignotements LED (erreurs, GPS)
+# 20. LED & erreurs
 
 ```cpp
 void clignoterErreur(...)
@@ -464,58 +545,83 @@ void clignoterErreurIncoherence()
 void clignoterGPS()
 ```
 
-### 📝 Explication  
-Chaque type d’erreur a un **pattern de clignotement** différent.
+### Explication  
+Chaque erreur a un pattern de clignotement spécifique.
 
 ---
 
-# 18. Test de la RTC
+# 21. Test RTC
 
 ```cpp
 bool testerRTC()
 {
     Wire.beginTransmission(0x68);
-    ...
+    Wire.write(0x00);
+    if (Wire.endTransmission() != 0) return false;
+
+    Wire.requestFrom(0x68, 1);
+    if (!Wire.available()) return false;
+
+    uint8_t sec = Wire.read();
+    return !(sec == 0xFF || (sec & 0x7F) > 59);
 }
 ```
 
-### 📝 Explication  
-Vérifie que la RTC répond correctement via I2C.
+### Explication  
+Vérifie que la RTC renvoie une valeur cohérente.
 
 ---
 
-# 19. Résumé des zones importantes
+# 22. Boutons
+
+```cpp
+void gererBoutons()
+{
+    if (sdFull) return;
+
+    bool redState = !digitalRead(BUTTON_RED);
+    bool greenState = !digitalRead(BUTTON_GREEN);
+
+    unsigned long now = millis();
+
+    if (redState && !redPressed && now - lastRedPress > DEBOUNCE_MS)
+    {
+        redPressed = true;
+        lastRedPress = now;
+
+        if (modeActuel == DEMARRAGE) changerMode(CONFIGURATION, 255, 255, 0, STR_CONFIG);
+        else if (modeActuel == CONFIGURATION) changerMode(STANDARD, 0, 255, 0, STR_STANDARD);
+        else if (modeActuel == STANDARD) changerMode(MAINTENANCE, 255, 165, 0, STR_MAINT);
+        else if (modeActuel == MAINTENANCE) changerMode(STANDARD, 0, 255, 0, STR_STANDARD);
+        else if (modeActuel == ECONOMIQUE) changerMode(MAINTENANCE, 255, 165, 0, STR_MAINT);
+    }
+
+    if (!redState) redPressed = false;
+
+    if (greenState && !greenPressed && now - lastGreenPress > DEBOUNCE_MS)
+    {
+        greenPressed = true;
+        lastGreenPress = now;
+
+        if (modeActuel == DEMARRAGE) changerMode(CONFIGURATION, 255, 255, 0, STR_CONFIG);
+        else if (modeActuel == CONFIGURATION) changerMode(STANDARD, 0, 255, 0, STR_STANDARD);
+        else if (modeActuel == STANDARD) changerMode(ECONOMIQUE, 0, 0, 255, STR_ECO);
+        else if (modeActuel == ECONOMIQUE) changerMode(STANDARD, 0, 255, 0, STR_STANDARD);
+        else if (modeActuel == MAINTENANCE) changerMode(ECONOMIQUE, 0, 0, 255, STR_ECO);
+    }
+
+    if (!greenState) greenPressed = false;
+}
+```
+
+### Explication  
+Gère les transitions entre modes via les boutons.
+
+---
+
+# 23. Résumé EEPROM / Interruptions / PROGMEM
 
 ```md
 📌 EEPROM utilisée dans :
-- setup()
-- gererConfigurationSerie()
-
-📌 Interruptions utilisées dans :
-- ISR(TIMER1_COMPA_vect)
-- configTimer1()
-
-📌 Pointeurs / PROGMEM utilisés dans :
-- afficherTexteLCD()
-- textes PROGMEM
-- SD.open(FICHIER_CSV)
-```
-
----
-
-# 20. Code complet (non commenté)
-
-*(Tu peux coller ici ton code brut si tu veux l’avoir en annexe.)*
-
-```
-
----
-
-Si tu veux, je peux aussi te générer :
-
-- une **version anglaise**
-- un **diagramme UML**
-- un **schéma de la machine à états**
-- une **documentation Doxygen complète**
-
-Tu veux que je t’ajoute un schéma d’architecture ?
+- setup() → lecture LOG_INTERVAL
+- gererConfigurationSerie() → écriture LOG_INTERVAL
