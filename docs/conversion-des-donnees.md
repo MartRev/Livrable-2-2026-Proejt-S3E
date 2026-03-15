@@ -120,9 +120,9 @@ End Sub
 
 Ensuite vous devrez créer un bouton et y lier la macro "Conversion_Donnees.xlsm!Module1.Traitement_Station_Meteo" et vous pourrez alors appuyer dessus, ce qui ouvre l'explorateur de fichier, sélectionnez le fichier "donnees" de la carte sd, ce qui importe les données et crée des graphiques, vous pourrez avoir alors des graphiques. 
 
-Des exemples de données et de grphiques sont disponible ci-dessous en exemples : 
-
 ## Visualisation des données
+
+Des exemples de données et de grphiques sont disponible ci-dessous en exemples : 
 
 ### Luminosité
 ![graph luminosite](../images/graph-luminosite.png)
