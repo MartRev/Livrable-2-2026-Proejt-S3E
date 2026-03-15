@@ -1,9 +1,7 @@
 
-# 3️⃣ Schéma de fonctionnement global
+# Schéma de fonctionnement global
 
-```markdown
-# ⚙️ Fonctionnement du système
-```
+
 
 ```mermaid
 flowchart TD
