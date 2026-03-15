@@ -1,6 +1,7 @@
-#Conversion des données pour utilisation
+# Station Météo – Projet S3E - Conversion des données 
 
-Option Explicit
+## Programme 
+Pour utiliser les données de la cartes SD, vous pouvez créer un Excel, l'enregistrer sous forma "xlsm", ensuite l'ouvrir, puis tapper la coommande CTRL + F11, ce qui ouvre l'éditeur de code, y créer un module et y mettre le programme suivant : 
 
 '---------------------------------------------------------
 ' MACRO PRINCIPALE
