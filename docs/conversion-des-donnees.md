@@ -132,6 +132,7 @@ Ici les irrégularitées sont des tests, avec des pics vers 0, qui sont des erre
 ### Humidité
 ![graph humidite](../images/graph-humidite.png)
 
+Ici l'humidité varie de manière normale.
 
 ### Température
 ![graph temperature](../images/graph-temperature.png)
