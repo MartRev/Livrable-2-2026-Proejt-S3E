@@ -2,7 +2,7 @@
 
 ## Programme 
 Pour utiliser les données de la cartes SD, vous pouvez créer un Excel, l'enregistrer sous forma "xlsm", ensuite l'ouvrir, puis tapper la coommande CTRL + F11, ce qui ouvre l'éditeur de code, y créer un module et y mettre le programme suivant : 
-
+'''vb
 '---------------------------------------------------------
 ' MACRO PRINCIPALE
 '---------------------------------------------------------
@@ -113,4 +113,4 @@ Sub CreerGraphique(ws As Worksheet, titre As String, colData As Long, lastRow As
     chartObj.Chart.Axes(xlValue).AxisTitle.Text = titre
 
 End Sub
-
+'''vb
