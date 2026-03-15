@@ -14,7 +14,6 @@ Chaque diagramme aura un commentaire sur son déroulé.
 
 # Vue globale — Diagramme des transitions entre modes
 
-# ICI
 ![Image manuel](../images/transition%20modes.png)****
 
 Ce diagramme illustre la logique complète de navigation entre les modes, entièrement pilotée par les deux boutons physiques (Rouge et Vert).
@@ -35,8 +34,7 @@ Ce schéma donne une vision d’ensemble du fonctionnement de la station et sert
 ---
 
 # Mode DÉMARRAGE
-# ICI
-
+![Image manuel](../images/démarrage.png)****
 
 Le mode DÉMARRAGE est un état très simple mais essentiel : Il sert de point d’entrée du système après la mise sous tension.
 
@@ -53,7 +51,8 @@ Ce mode garantit que l’utilisateur prend le contrôle dès le début et qu’a
 ---
 
 # Mode CONFIGURATION
-# ICI
+![Image manuel](../images/configuration.png)****
+
 
 
 En mode **CONFIGURATION** :
@@ -84,7 +83,8 @@ Une pression sur Rouge ou Vert → passage en **STANDARD**
 
 
 # Mode STANDARD
-# ICI
+![Image manuel](../images/standard.png)****
+
 
 
 Le mode STANDARD est le cœur du fonctionnement de la station météo :
@@ -109,7 +109,8 @@ Ce mode assure un fonctionnement fiable, régulier et sécurisé, adapté à une
 ---
 
 # Mode ÉCONOMIQUE
-# ICI
+![Image manuel](../images/économique.png)****
+
 
 
 
@@ -127,7 +128,8 @@ Ce mode est idéal pour les installations autonomes alimentées par batterie ou 
 ---
 
 # Mode MAINTENANCE
-# ICI
+![Image manuel](../images/maintenance.png)****
+
 
 
 Le mode MAINTENANCE permet d’intervenir sur la station sans risque :
