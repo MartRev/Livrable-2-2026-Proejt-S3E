@@ -32,15 +32,11 @@ stateDiagram-v2
 ```
 
 Ce diagramme illustre la logique complète de navigation entre les modes, entièrement pilotée par les deux boutons physiques (Rouge et Vert).
-Il met en évidence plusieurs points importants :
-
-Le système démarre toujours en mode DÉMARRAGE, un état transitoire.
+Il met en évidence plusieurs points importants : Le système démarre toujours en mode DÉMARRAGE, un état transitoire.
 
 Les deux boutons permettent ensuite d’accéder au mode CONFIGURATION, indispensable pour régler les paramètres internes.
 
-Les modes STANDARD, ÉCONOMIQUE et MAINTENANCE forment un trio fonctionnel permettant d’adapter le comportement de la station :
-
-STANDARD = fonctionnement normal, mesures régulières.
+Les modes STANDARD, ÉCONOMIQUE et MAINTENANCE forment un trio fonctionnel permettant d’adapter le comportement de la station : STANDARD = fonctionnement normal, mesures régulières.
 
 ÉCONOMIQUE = réduction de la fréquence des mesures pour économiser énergie et SD.
 
@@ -62,9 +58,7 @@ flowchart TD
     D -->|Rouge ou Vert| E[Passage en MODE CONFIGURATION]
 ```
 
-Le mode DÉMARRAGE est un état très simple mais essentiel :
-
-Il sert de point d’entrée du système après la mise sous tension.
+Le mode DÉMARRAGE est un état très simple mais essentiel : Il sert de point d’entrée du système après la mise sous tension.
 
 Le LCD affiche un message clair indiquant que la station est en phase d’initialisation.
 
@@ -99,15 +93,7 @@ Le mode CONFIGURATION est le seul mode où l’utilisateur peut modifier les par
 
 La LED jaune indique clairement que la station n’est pas en mode de mesure.
 
-Le système écoute les commandes envoyées via le port série :
-
-réglage de l’intervalle de mesure,
-
-modification des seuils de température, humidité et luminosité,
-
-réinitialisation complète,
-
-affichage de la version du programme.
+Le système écoute les commandes envoyées via le port série : réglage de l’intervalle de mesure, modification des seuils de température, humidité et luminosité, réinitialisation complète, affichage de la version du programme.
 
 Toutes les modifications sont immédiatement enregistrées en EEPROM, ce qui garantit leur persistance même après redémarrage.
 
@@ -152,15 +138,11 @@ La LED verte indique un fonctionnement normal et actif.
 
 La carte SD est ouverte pour permettre l’enregistrement des données.
 
-Deux timers indépendants rythment le fonctionnement :
-
-1 seconde : mise à jour de l’heure et de l’état GPS.
+Deux timers indépendants rythment le fonctionnement : 1 seconde : mise à jour de l’heure et de l’état GPS.
 
 LOG_INTERVAL secondes : lecture des capteurs et enregistrement.
 
-Les capteurs sont vérifiés avant chaque enregistrement :
-
-incohérence → clignotement rouge/vert + message d’erreur,
+Les capteurs sont vérifiés avant chaque enregistrement : incohérence → clignotement rouge/vert + message d’erreur,
 
 valeurs valides → enregistrement CSV.
 
@@ -187,13 +169,7 @@ Le mode ÉCONOMIQUE est une variante optimisée du mode STANDARD :
 
 La LED bleue signale un fonctionnement à faible consommation.
 
-L’intervalle de mesure est doublé, ce qui réduit :
-
-la consommation électrique,
-
-l’usure de la carte SD,
-
-la quantité de données générées.
+L’intervalle de mesure est doublé, ce qui réduit : la consommation électrique, l’usure de la carte SD, la quantité de données générées.
 
 Les mêmes contrôles d’erreur sont appliqués qu’en mode STANDARD.
 
@@ -223,15 +199,7 @@ La carte SD est fermée pour éviter toute corruption de fichier.
 
 Aucun capteur n’est lu, aucune donnée n’est enregistrée.
 
-Ce mode est parfait pour :
-
-changer un capteur,
-
-déplacer la station,
-
-vérifier le câblage,
-
-effectuer des tests sans polluer les données.
+Ce mode est parfait pour : changer un capteur, déplacer la station, vérifier le câblage, effectuer des tests sans polluer les données.
 
 Les boutons permettent de revenir rapidement en STANDARD ou ÉCONOMIQUE.
 
