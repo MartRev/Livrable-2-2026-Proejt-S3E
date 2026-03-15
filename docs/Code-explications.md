@@ -21,31 +21,10 @@ Les principales fonctionnalités sont :
 
 ## Diagramme d’architecture
 
-```mermaid
-flowchart LR
+<p align="center">
+  <img src="../images/architecture-materiel.png" alt="Image manuel">
+</p>
 
-Arduino[Arduino]
-
-DHT[DHT11\nTempérature Humidité]
-Light[Capteur Luminosité]
-GPS[Module GPS]
-RTC[RTC DS1307]
-SD[Carte SD]
-LCD[LCD RGB]
-LED[LED RGB]
-Buttons[Boutons]
-
-DHT --> Arduino
-Light --> Arduino
-GPS --> Arduino
-RTC --> Arduino
-
-Arduino --> SD
-Arduino --> LCD
-Arduino --> LED
-
-Buttons --> Arduino
-```
 
 ---
 
@@ -122,41 +101,9 @@ permettent de :
 
 ## Diagramme de fonctionnement
 
-```mermaid
-flowchart TD
-
-Start[Demarrage] --> Init[Initialisation systeme]
-
-Init --> CheckRTC
-Init --> CheckSD
-
-CheckRTC --> Loop
-CheckSD --> Loop
-
-Loop[Loop principale]
-
-Loop --> Timer
-
-Timer --> Flags[Flags interruption]
-
-Flags --> AffHeure
-Flags --> LireCapteurs
-
-LireCapteurs --> Verif{Donnees valides ?}
-
-Verif -- Non --> Erreur
-Verif -- Oui --> GPSpos
-
-GPSpos --> Horodatage
-
-Horodatage --> Save
-
-Save[Enregistrement SD]
-
-Save --> LCD
-
-LCD --> Loop
-```
+<p align="center">
+  <img src="../images/flux-information.png" alt="Image manuel">
+</p>
 
 ---
 
@@ -273,23 +220,10 @@ Exemple :
 Le système fonctionne selon **plusieurs modes opérationnels**.
 
 ## Diagramme des modes
+<p align="center">
+  <img src="../images/machine-a-etats.png" alt="Image manuel">
+</p>
 
-```mermaid
-stateDiagram-v2
-
-[*] --> DEMARRAGE
-
-DEMARRAGE --> CONFIGURATION
-CONFIGURATION --> STANDARD
-
-STANDARD --> ECONOMIQUE
-ECONOMIQUE --> STANDARD
-
-STANDARD --> MAINTENANCE
-ECONOMIQUE --> MAINTENANCE
-
-MAINTENANCE --> STANDARD
-```
 
 ---
 
