@@ -1,5 +1,7 @@
 # Architecture du système
 
+Vous trouverez ici l'explication de l'architecture du système créée.
+
 ## Vue globale du système
 
 Le projet implémente une **station de mesure environnementale embarquée** basée sur un microcontrôleur Arduino.
