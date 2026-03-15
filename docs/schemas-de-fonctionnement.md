@@ -13,9 +13,9 @@ Chaque diagramme aura un commentaire sur son déroulé.
 ---
 
 # Vue globale — Diagramme des transitions entre modes
-<div align="center">
-  <img src="transition%20modes.png" width="500">
-</div>
+<p align="center">
+  <img src="../images/transition%20modes.png" alt="Image manuel">
+</p>
 
 ![Image manuel](../images/transition%20modes.png)
 
