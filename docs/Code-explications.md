@@ -238,4 +238,34 @@ GPS --> SAVE[Enregistrement SD]
 SAVE --> LOOP
 ```
 
+flowchart LR
+    A[Interruption Timer1] --> B[flagHorloge]
+    A --> C[flagCapteurs]
+
+    B --> D[afficherHeure()]
+    C --> E[lireCapteurs()]
+
+    E --> F[Validation capteurs]
+    F -->|OK| G[Enregistrement SD]
+    F -->|Erreur| H[Clignotement incohérence]
+stateDiagram-v2
+    [*] --> DEMARRAGE
+    DEMARRAGE --> CONFIGURATION : bouton rouge/vert
+    CONFIGURATION --> STANDARD : bouton rouge/vert
+    STANDARD --> ECONOMIQUE : bouton vert
+    STANDARD --> MAINTENANCE : bouton rouge
+    ECONOMIQUE --> STANDARD : bouton vert
+    ECONOMIQUE --> MAINTENANCE : bouton rouge
+    MAINTENANCE --> STANDARD : bouton rouge
+    MAINTENANCE --> ECONOMIQUE : bouton vert
+flowchart TD
+    A[Arduino UNO] --> B[Capteur DHT11]
+    A --> C[GPS NEO-6M via SoftwareSerial]
+    A --> D[Capteur de luminosité]
+    A --> E[Module RTC DS1307]
+    A --> F[Carte SD]
+    A --> G[LED RGB Chainable]
+    A --> H[Écran LCD RGB]
+    A --> I[Bouton Rouge]
+    A --> J[Bouton Vert]
 
