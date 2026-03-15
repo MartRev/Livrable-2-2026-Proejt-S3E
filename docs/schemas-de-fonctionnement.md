@@ -46,7 +46,7 @@ Chaque pression de bouton change l’état selon une logique précise :
 
 ```mermaid
 flowchart TD
-    A [Mode DEMARRAGE] --> B[Affichage LCD : "Mode Demarrage"]
+    A [Mode DEMARRAGE] --> B[Affichage LCD : Mode Demarrage]
     B --> C[LED blanche]
     C --> D[Attente pression bouton]
     D -->|Rouge ou Vert| E[Passage en MODE CONFIGURATION]
@@ -68,7 +68,7 @@ Le mode **DÉMARRAGE** est un état transitoire :
 ```mermaid
 flowchart TD
     A[Mode CONFIGURATION] --> B[LED Jaune]
-    B --> C[Affichage LCD : "Mode Config"]
+    B --> C[Affichage LCD : Mode Config]
     C --> D[Lecture commandes série]
     D -->|LOG_INTERVAL=...| E[Mise à jour EEPROM]
     D -->|MIN/MAX capteurs| F[Mise à jour seuils]
@@ -103,10 +103,10 @@ flowchart TD
     C --> D[Timer 1s → flagHorloge]
     C --> E[Timer LOG_INTERVAL → flagCapteurs]
 
-    D --> F[Affichage heure + état GPS]
+    D --> F[Affichage heure + etat GPS]
 
-    E --> G[Lecture DHT11 / Luminosité]
-    G -->|Erreur capteur| H[Clignotement rouge/vert + LCD "erreur capteur"]
+    E --> G[Lecture DHT11 / Luminosite]
+    G -->|Erreur capteur| H[Clignotement rouge/vert + LCD erreur capteur]
     G -->|OK| I[Lecture GPS]
     I --> J[Enregistrement CSV sur SD]
     J -->|SD pleine| K[sdFull = true → blocage]
