@@ -63,5 +63,10 @@ Le projet utilise les composants suivants :
 Le montage se fait ensuite en commançant par la carte
 
 ## Schéma de montage
+Vous pourrez alors réaliser le montage qui va suivre :
+En premier il faudra fixer le shield sur l'arduino comme ceci : 
+
 
 ![Image manuel](../images/montage-complet.png)
+
+
