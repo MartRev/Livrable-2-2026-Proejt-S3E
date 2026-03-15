@@ -1,15 +1,11 @@
-
-
-Je te propose une structure en 5 parties :
-
-1. **Vue globale des transitions entre modes**  
-2. **Mode DÉMARRAGE**  
-3. **Mode CONFIGURATION**  
-4. **Mode STANDARD**  
-5. **Mode ÉCONOMIQUE**  
-6. **Mode MAINTENANCE**
-
-Si tu veux, je peux aussi générer des versions *flowchart*, *state diagram*, ou *sequence diagram* selon ton usage (README, rapport, cours…).
+# Schéma de focntionnement
+Dans cette partie nous vreeons différents schéma de fciontionnement en focntiond es différents modes présent sur notre station météo, nous verrons :
+    1. **Vue globale des transitions entre modes**  
+    2. **Mode DÉMARRAGE**  
+    3. **Mode CONFIGURATION**  
+    4. **Mode STANDARD**  
+    5. **Mode ÉCONOMIQUE**  
+    6. **Mode MAINTENANCE**
 
 ---
 
