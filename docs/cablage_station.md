@@ -65,10 +65,8 @@ Le montage se fait ensuite en commançant par la carte
 ## Schéma de montage
 Vous pourrez alors réaliser le montage qui va suivre, en premier il faudra fixer le shield sur l'arduino comme ceci : 
 
-![Montage Arduino + Shield Grove](../images/montage%20arduino+%20shield%20grove.png) 
-
 <p align="center">
-  <img src="../images/montage%20arduino+%20shield%20grove.png" alt="Montage Arduino + Shield Grove" width="500">
+  <img src="../images/montage%20arduino+%20shield%20grove.png" alt="Montage Arduino + Shield Grove" width="800">
 </p>
 
 ![Image manuel](../images/montage-complet.png)
