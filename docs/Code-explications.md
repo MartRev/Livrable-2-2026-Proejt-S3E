@@ -1,6 +1,6 @@
 # Architecture du système
 
-Vous trouverez ici l'explication de l'architecture du système créée.
+Vous trouverez ici l'explication de l'architecture du système créé.
 
 ## Vue globale du système
 
