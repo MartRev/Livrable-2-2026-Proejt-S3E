@@ -14,7 +14,7 @@ Chaque diagramme aura un commentaire sur son déroulé.
 
 # Vue globale — Diagramme des transitions entre modes
 <p align="center">
-  ![Image manuel](../images/transition%20modes.png)
+![Image manuel](../images/transition%20modes.png)
 </p>
 Ce diagramme illustre la logique complète de navigation entre les modes, entièrement pilotée par les deux boutons physiques (Rouge et Vert).
 Il met en évidence plusieurs points importants : Le système démarre toujours en mode DÉMARRAGE, un état transitoire.
