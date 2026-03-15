@@ -46,7 +46,7 @@ Chaque pression de bouton change l’état selon une logique précise :
 
 ```mermaid
 flowchart TD
-    A[Mode DÉMARRAGE] --> B[Affichage LCD : "Mode Demarrage"]
+    A [Mode DÉMARRAGE] --> B[Affichage LCD : "Mode Demarrage"]
     B --> C[LED blanche]
     C --> D[Attente pression bouton]
     D -->|Rouge ou Vert| E[Passage en MODE CONFIGURATION]
