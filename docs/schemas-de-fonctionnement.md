@@ -1,6 +1,4 @@
-Parfait, Martin — tu vas avoir exactement ce qu’il te faut :  
-**plusieurs diagrammes Mermaid**, chacun dédié à un mode de fonctionnement de ton programme, **accompagné d’un texte explicatif clair**.  
-Je m’appuie directement sur ton code pour représenter fidèlement la logique réelle.
+
 
 Je te propose une structure en 5 parties :
 
@@ -15,7 +13,7 @@ Si tu veux, je peux aussi générer des versions *flowchart*, *state diagram*, o
 
 ---
 
-# 🌐 1. Vue globale — Diagramme des transitions entre modes
+# Vue globale — Diagramme des transitions entre modes
 
 ```mermaid
 stateDiagram-v2
@@ -34,7 +32,7 @@ stateDiagram-v2
     MAINTENANCE --> ECONOMIQUE : Bouton Vert
 ```
 
-### 🔎 Explication
+### Explication
 Ce diagramme représente **toutes les transitions possibles** définies dans `gererBoutons()`.  
 Chaque pression de bouton change l’état selon une logique précise :
 
@@ -44,7 +42,7 @@ Chaque pression de bouton change l’état selon une logique précise :
 
 ---
 
-# 🚀 2. Mode DÉMARRAGE
+# Mode DÉMARRAGE
 
 ```mermaid
 flowchart TD
@@ -54,7 +52,7 @@ flowchart TD
     D -->|Rouge ou Vert| E[Passage en MODE CONFIGURATION]
 ```
 
-### 🔎 Explication
+### Explication
 Le mode **DÉMARRAGE** est un état transitoire :
 
 - Le LCD affiche *"Mode Demarrage"*  
@@ -65,7 +63,7 @@ Le mode **DÉMARRAGE** est un état transitoire :
 
 ---
 
-# 🛠️ 3. Mode CONFIGURATION
+# Mode CONFIGURATION
 
 ```mermaid
 flowchart TD
@@ -80,7 +78,7 @@ flowchart TD
     I -->|Rouge ou Vert| J[Passage en STANDARD]
 ```
 
-### 🔎 Explication
+### Explication
 En mode **CONFIGURATION** :
 
 - La LED est **jaune**
@@ -94,9 +92,9 @@ En mode **CONFIGURATION** :
   - `VERSION`
 - Une pression sur Rouge ou Vert → passage en **STANDARD**
 
----
 
-# 🌡️ 4. Mode STANDARD
+
+# Mode STANDARD
 
 ```mermaid
 flowchart TD
@@ -114,7 +112,7 @@ flowchart TD
     J -->|SD pleine| K[sdFull = true → blocage]
 ```
 
-### 🔎 Explication
+### Explication
 Le mode **STANDARD** est le mode principal :
 
 - LED **verte**
@@ -132,7 +130,7 @@ Le mode **STANDARD** est le mode principal :
 
 ---
 
-# 🔋 5. Mode ÉCONOMIQUE
+# Mode ÉCONOMIQUE
 
 ```mermaid
 flowchart TD
@@ -144,7 +142,7 @@ flowchart TD
     E -->|OK| G[Enregistrement CSV]
 ```
 
-### 🔎 Explication
+### Explication
 Le mode **ÉCONOMIQUE** est identique au mode STANDARD, sauf :
 
 - LED **bleue**
@@ -154,7 +152,7 @@ Le mode **ÉCONOMIQUE** est identique au mode STANDARD, sauf :
 
 ---
 
-# 🔧 6. Mode MAINTENANCE
+# Mode MAINTENANCE
 
 ```mermaid
 flowchart TD
@@ -167,7 +165,7 @@ flowchart TD
     F -->|Vert| H[Passage ÉCONOMIQUE]
 ```
 
-### 🔎 Explication
+### Explication
 Le mode **MAINTENANCE** :
 
 - LED **orange**
@@ -176,15 +174,3 @@ Le mode **MAINTENANCE** :
 - Aucun enregistrement n’est fait
 - Idéal pour manipuler le matériel sans risque d’écriture SD
 
----
-
-# 🎁 Tu veux aller plus loin ?
-Je peux aussi te générer :
-
-- un **diagramme global complet** regroupant tous les modes  
-- un **diagramme de séquence** pour l’enregistrement SD  
-- un **diagramme d’activité** pour la gestion des capteurs  
-- un **diagramme pour la logique GPS**  
-- un **diagramme pour la gestion des erreurs**
-
-Dis-moi ce que tu veux ajouter et je te le prépare.
