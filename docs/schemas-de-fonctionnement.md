@@ -14,7 +14,7 @@ Chaque diagramme aura un commentaire sur son déroulé.
 
 # Vue globale — Diagramme des transitions entre modes
 
-![Image manuel](../images/transition%20modes.png)****
+![Image manuel](../images/transition%20modes.png)
 
 Ce diagramme illustre la logique complète de navigation entre les modes, entièrement pilotée par les deux boutons physiques (Rouge et Vert).
 Il met en évidence plusieurs points importants : Le système démarre toujours en mode DÉMARRAGE, un état transitoire.
@@ -34,7 +34,7 @@ Ce schéma donne une vision d’ensemble du fonctionnement de la station et sert
 ---
 
 # Mode DÉMARRAGE
-![Image manuel](../images/démarrage.png)****
+![Image manuel](../images/démarrage.png)
 
 Le mode DÉMARRAGE est un état très simple mais essentiel : Il sert de point d’entrée du système après la mise sous tension.
 
@@ -51,8 +51,7 @@ Ce mode garantit que l’utilisateur prend le contrôle dès le début et qu’a
 ---
 
 # Mode CONFIGURATION
-![Image manuel](../images/configuration.png)****
-
+![Image manuel](../images/configuration.png)
 
 
 En mode **CONFIGURATION** :
@@ -83,7 +82,7 @@ Une pression sur Rouge ou Vert → passage en **STANDARD**
 
 
 # Mode STANDARD
-![Image manuel](../images/standard.png)****
+![Image manuel](../images/standard.png)
 
 
 
@@ -109,7 +108,7 @@ Ce mode assure un fonctionnement fiable, régulier et sécurisé, adapté à une
 ---
 
 # Mode ÉCONOMIQUE
-![Image manuel](../images/économique.png)****
+![Image manuel](../images/économique.png)
 
 
 
@@ -128,7 +127,7 @@ Ce mode est idéal pour les installations autonomes alimentées par batterie ou 
 ---
 
 # Mode MAINTENANCE
-![Image manuel](../images/maintenance.png)****
+![Image manuel](../images/maintenance.png)
 
 
 
