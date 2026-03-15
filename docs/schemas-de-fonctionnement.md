@@ -28,7 +28,6 @@ stateDiagram-v2
     MAINTENANCE --> ECONOMIQUE : Bouton Vert
 ```
 
-### Explication
 Ce diagramme représente **toutes les transitions possibles** définies dans `gererBoutons()`.  
 Chaque pression de bouton change l’état selon une logique précise :
 
@@ -48,7 +47,6 @@ flowchart TD
     D -->|Rouge ou Vert| E[Passage en MODE CONFIGURATION]
 ```
 
-### Explication
 Le mode **DÉMARRAGE** est un état transitoire :
 
 - Le LCD affiche *"Mode Demarrage"*  
@@ -74,7 +72,6 @@ flowchart TD
     I -->|Rouge ou Vert| J[Passage en STANDARD]
 ```
 
-### Explication
 En mode **CONFIGURATION** :
 
 - La LED est **jaune**
@@ -108,7 +105,6 @@ flowchart TD
     J -->|SD pleine| K[sdFull = true → blocage]
 ```
 
-### Explication
 Le mode **STANDARD** est le mode principal :
 
 - LED **verte**
@@ -138,7 +134,6 @@ flowchart TD
     E -->|OK| G[Enregistrement CSV]
 ```
 
-### Explication
 Le mode **ÉCONOMIQUE** est identique au mode STANDARD, sauf :
 
 - LED **bleue**
@@ -161,7 +156,6 @@ flowchart TD
     F -->|Vert| H[Passage ÉCONOMIQUE]
 ```
 
-### Explication
 Le mode **MAINTENANCE** :
 
 - LED **orange**
