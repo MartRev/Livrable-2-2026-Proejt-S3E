@@ -15,7 +15,7 @@ Chaque diagramme aura un commentaire sur son déroulé.
 # Vue globale — Diagramme des transitions entre modes
 
 ```mermaid
-stateDiagram-v2
+stateDiagram
     [*] --> DEMARRAGE
 
     DEMARRAGE --> CONFIGURATION : Bouton Rouge ou Vert
