@@ -14,22 +14,8 @@ Chaque diagramme aura un commentaire sur son déroulé.
 
 # Vue globale — Diagramme des transitions entre modes
 
-```mermaid
-stateDiagram
-    [*] --> DEMARRAGE
+# ICI
 
-    DEMARRAGE --> CONFIGURATION : Bouton Rouge ou Vert
-    CONFIGURATION --> STANDARD : Bouton Rouge ou Vert
-
-    STANDARD --> ECONOMIQUE : Bouton Vert
-    ECONOMIQUE --> STANDARD : Bouton Vert
-
-    STANDARD --> MAINTENANCE : Bouton Rouge
-    MAINTENANCE --> STANDARD : Bouton Rouge
-
-    ECONOMIQUE --> MAINTENANCE : Bouton Rouge
-    MAINTENANCE --> ECONOMIQUE : Bouton Vert
-```
 
 Ce diagramme illustre la logique complète de navigation entre les modes, entièrement pilotée par les deux boutons physiques (Rouge et Vert).
 Il met en évidence plusieurs points importants : Le système démarre toujours en mode DÉMARRAGE, un état transitoire.
@@ -49,14 +35,8 @@ Ce schéma donne une vision d’ensemble du fonctionnement de la station et sert
 ---
 
 # Mode DÉMARRAGE
+# ICI
 
-```mermaid
-flowchart TD
-    A [Mode DEMARRAGE] --> B[Affichage LCD : Mode Demarrage]
-    B --> C[LED blanche]
-    C --> D[Attente pression bouton]
-    D -->|Rouge ou Vert| E[Passage en MODE CONFIGURATION]
-```
 
 Le mode DÉMARRAGE est un état très simple mais essentiel : Il sert de point d’entrée du système après la mise sous tension.
 
@@ -73,19 +53,8 @@ Ce mode garantit que l’utilisateur prend le contrôle dès le début et qu’a
 ---
 
 # Mode CONFIGURATION
+# ICI
 
-```mermaid
-flowchart TD
-    A[Mode CONFIGURATION] --> B[LED Jaune]
-    B --> C[Affichage LCD : Mode Config]
-    C --> D[Lecture commandes série]
-    D -->|LOG_INTERVAL=...| E[Mise à jour EEPROM]
-    D -->|MIN/MAX capteurs| F[Mise à jour seuils]
-    D -->|RESET| G[Réinitialisation paramètres]
-    D -->|VERSION| H[Affichage version & lot]
-    C --> I[Attente bouton]
-    I -->|Rouge ou Vert| J[Passage en STANDARD]
-```
 
 En mode **CONFIGURATION** :
 
@@ -115,22 +84,8 @@ Une pression sur Rouge ou Vert → passage en **STANDARD**
 
 
 # Mode STANDARD
+# ICI
 
-```mermaid
-flowchart TD
-    A[Mode STANDARD] --> B[LED Verte]
-    B --> C[Ouverture SD]
-    C --> D[Timer 1s → flagHorloge]
-    C --> E[Timer LOG_INTERVAL → flagCapteurs]
-
-    D --> F[Affichage heure + etat GPS]
-
-    E --> G[Lecture DHT11 / Luminosite]
-    G -->|Erreur capteur| H[Clignotement rouge/vert + LCD erreur capteur]
-    G -->|OK| I[Lecture GPS]
-    I --> J[Enregistrement CSV sur SD]
-    J -->|SD pleine| K[sdFull = true → blocage]
-```
 
 Le mode STANDARD est le cœur du fonctionnement de la station météo :
 
@@ -154,16 +109,9 @@ Ce mode assure un fonctionnement fiable, régulier et sécurisé, adapté à une
 ---
 
 # Mode ÉCONOMIQUE
+# ICI
 
-```mermaid
-flowchart TD
-    A[Mode ÉCONOMIQUE] --> B[LED Bleue]
-    B --> C[Ouverture SD]
-    C --> D[Timer LOG_INTERVAL x2]
-    D --> E[Lecture capteurs]
-    E -->|Erreur| F[Clignotement incohérence]
-    E -->|OK| G[Enregistrement CSV]
-```
+
 
 Le mode ÉCONOMIQUE est une variante optimisée du mode STANDARD :
 
@@ -179,17 +127,8 @@ Ce mode est idéal pour les installations autonomes alimentées par batterie ou 
 ---
 
 # Mode MAINTENANCE
+# ICI
 
-```mermaid
-flowchart TD
-    A[Mode MAINTENANCE] --> B[LED Orange]
-    B --> C[Fermeture SD]
-    C --> D[Aucune mesure capteur]
-    D --> E[Aucun enregistrement]
-    E --> F[Attente bouton]
-    F -->|Rouge| G[Retour STANDARD]
-    F -->|Vert| H[Passage ÉCONOMIQUE]
-```
 
 Le mode MAINTENANCE permet d’intervenir sur la station sans risque :
 
