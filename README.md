@@ -10,7 +10,7 @@ Un grand nombre de sociétés utilisant des transports navals ont accepté d'éq
 ---
 
 ## Objectifs
-Docuementation utilisateur et technique, ainsi que des schéma de focntionnement
+Documentation utilisateur et technique, ainsi que des schéma de focntionnement
 -Réaliser la structure du code
 
 ---
