@@ -35,7 +35,10 @@ Ce schéma donne une vision d’ensemble du fonctionnement de la station et sert
 ---
 
 # Mode DÉMARRAGE
-![Image manuel](../images/démarrage.png)
+<p align="center">
+  <img src="../images/démarrage.png" alt="Image manuel">
+</p>
+
 
 Le mode DÉMARRAGE est un état très simple mais essentiel : Il sert de point d’entrée du système après la mise sous tension.
 
