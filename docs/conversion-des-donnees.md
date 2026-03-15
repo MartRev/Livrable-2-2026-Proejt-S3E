@@ -2,7 +2,8 @@
 
 ## Programme 
 Pour utiliser les données de la cartes SD, vous pouvez créer un Excel, l'enregistrer sous forma "xlsm", ensuite l'ouvrir, puis tapper la coommande CTRL + F11, ce qui ouvre l'éditeur de code, y créer un module et y mettre le programme suivant : 
-'''vb
+
+```vb
 '---------------------------------------------------------
 ' MACRO PRINCIPALE
 '---------------------------------------------------------
@@ -69,7 +70,7 @@ Sub Traitement_Station_Meteo()
     '---------------------------------------------------------
     ' 3) Conversion automatique de la date RTC
     '---------------------------------------------------------
-    lastRow = ws.Cells(ws.Rows.Count, 1).End(xlUp).row
+    lastRow = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
 
     For i = 2 To lastRow
         If IsDate(ws.Cells(i, 1).Value) Then
@@ -113,4 +114,4 @@ Sub CreerGraphique(ws As Worksheet, titre As String, colData As Long, lastRow As
     chartObj.Chart.Axes(xlValue).AxisTitle.Text = titre
 
 End Sub
-'''vb
+```
