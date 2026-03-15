@@ -70,6 +70,7 @@ Vous pourrez alors réaliser le montage qui va suivre, en premier il faudra fixe
 </p>
 Une fois fait, vous pouvez brancher l'alimentation de l'arduino, mettre le sélecteur de puissnace du shield sur "5V", si c'est sur "3.3V", le circuit ne sera pas focntionnel avec le programme fournit, et ensuite faire le montage complet.
 </p>
+
 ![Image manuel](../images/montage-complet.png)
 
 
