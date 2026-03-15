@@ -126,6 +126,7 @@ Des exemples de données et de grphiques sont disponible ci-dessous en exemples 
 
 ### Luminosité
 ![graph luminosite](../images/graph-luminosite.png)
+
 Ici les irrégularitées sont des tests, avec des pics vers 0, qui sont des erreurs de données
 
 ### Humidité
@@ -134,10 +135,12 @@ Ici les irrégularitées sont des tests, avec des pics vers 0, qui sont des erre
 
 ### Température
 ![graph temperature](../images/graph-temperature.png)
+
 Ici l'irrégularitées est un test fait en retirant le capteur, qui est le pic vers le bas.
 
 
 ### Données d’exemple
 ![donnees exemple](../images/donnees-exemple.png)
+
 La première colonne est la date de la RTC, la 2e la température, la 3e l'humidité, la 4e la luminosité, et les deux dernières les données GPS
 
