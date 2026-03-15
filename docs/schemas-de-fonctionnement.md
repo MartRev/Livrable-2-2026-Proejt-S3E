@@ -1,5 +1,5 @@
 # Schéma de focntionnement
-Dans cette partie nous vreeons différents schéma de fciontionnement en focntiond es différents modes présent sur notre station météo, nous verrons :
+Dans cette partie nous verrons différents schéma de fonctionnement en focntiond es différents modes présent sur notre station météo, nous verrons :
 
 -**Vue globale des transitions entre modes**  
 -**Mode DÉMARRAGE**  
