@@ -1,22 +1,3 @@
-Parfait Martin — merci pour la précision.  
-On va donc **raccourcir les explications**, tout en gardant un niveau **technique**, et **assembler plusieurs blocs de code** pour réduire la taille totale afin que **tout tienne dans un seul message**.
-
-🎯 **Objectif :**  
-→ README complet  
-→ Explications techniques mais concises  
-→ Code regroupé par grandes sections  
-→ Explications après chaque section  
-→ Encadrés spéciaux EEPROM / interruptions / PROGMEM  
-→ Format professionnel GitHub  
-→ Un seul message
-
----
-
-# ✅ **README COMPLET (VERSION TECHNIQUE RÉSUMÉE)**  
-*(Tu peux copier‑coller tel quel dans ton README.md)*
-
----
-
 ```md
 # Station Météo Arduino – Documentation Technique Résumée
 
