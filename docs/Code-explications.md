@@ -6,7 +6,7 @@ Le code est découpé en sections, chacune suivie d’une explication technique 
 
 ---
 
-# 📑 Table des matières
+# Table des matières
 
 - [1. Bibliothèques](#1-bibliothèques)
 - [2. Constantes et broches](#2-constantes-et-broches)
@@ -160,7 +160,7 @@ const char STR_SD_PLEINE[] PROGMEM = "SD pleine !";
 
 ### Explication  
 Stockés en **mémoire flash** pour économiser la RAM.  
-➡️ Utilise des **pointeurs PROGMEM**.
+Utilise des **pointeurs PROGMEM**.
 
 ---
 
@@ -217,7 +217,7 @@ ISR(TIMER1_COMPA_vect)
 Interruption déclenchée toutes les secondes.  
 Met à jour les flags utilisés dans `loop()`.
 
-➡️ **Zone clé : interruptions matérielles**
+**Zone clé : interruptions matérielles**
 
 ---
 
@@ -291,7 +291,7 @@ Lit `LOG_INTERVAL` depuis l’EEPROM.
 Configure Timer1.  
 Affiche le mode démarrage.
 
-➡️ **Zone clé : EEPROM (lecture/écriture)**
+**Zone clé : EEPROM (lecture/écriture)**
 
 ---
 
@@ -359,7 +359,7 @@ void gererConfigurationSerie()
 Permet de modifier les paramètres via le port série.  
 Sauvegarde `LOG_INTERVAL` dans l’EEPROM.
 
-➡️ **Zone clé : EEPROM (écriture)**
+**Zone clé : EEPROM (écriture)**
 
 ---
 
@@ -376,7 +376,7 @@ void afficherTexteLCD(const char* textePROGMEM)
 ### Explication  
 Affiche un texte stocké en PROGMEM.
 
-➡️ **Zone clé : pointeurs PROGMEM**
+**Zone clé : pointeurs PROGMEM**
 
 ---
 
@@ -603,6 +603,6 @@ Gère les transitions entre modes via les boutons.
 # 23. Résumé EEPROM / Interruptions / PROGMEM
 
 ```md
-📌 EEPROM utilisée dans :
+EEPROM utilisée dans :
 - setup() → lecture LOG_INTERVAL
 - gererConfigurationSerie() → écriture LOG_INTERVAL
