@@ -14,7 +14,8 @@ Docuementation utilisateur et technique, ainsi que des schéma de focntionnement
 -Réaliser la structure du code
 
 ---
-## Contenu du document : Ce document contient les diagrammes de fonctionnement des 4 modes de la station et la tructure du code commentée.
+### Contenu du document : 
+Ce document contient les diagrammes de fonctionnement des 4 modes de la station et la tructure du code commentée. Il contiendra également une documentation utilisateur et technique, une instruction au montage complet et un guide pour user des données stockées
 
 ![Schéma de câblage](images/image-opening.png)
 
