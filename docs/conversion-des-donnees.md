@@ -1,3 +1,5 @@
+#Conversion des données pour utilisation
+
 Option Explicit
 
 '---------------------------------------------------------
