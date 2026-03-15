@@ -16,7 +16,6 @@ Chaque diagramme aura un commentaire sur son déroulé.
 <div align="center">
   <img src="transition%20modes.png" width="300">
 </div>
->
 
 ![Image manuel](../images/transition%20modes.png)
 
