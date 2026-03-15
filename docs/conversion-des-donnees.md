@@ -125,14 +125,14 @@ Des exemples de données et de grphiques sont disponible ci-dessous en exemples 
 ## Visualisation des données
 
 ### Luminosité
-![Graphique de luminosité](../images/luminosite.png)
+![graph-luminosite](../images/luminosite.png)
 
 ### Humidité
-![Graphique d'humidité](../images/humidite.png)
+![graph-humidite](../images/humidite.png)
 
 ### Température
-![Graphique de température](../images/temperature.png)
+![graph-temperature](../images/temperature.png)
 
 ### Données d’exemple
-![Exemple de données](../images/donnees-exemples.png)
+![donnees-exemple](../images/donnees-exemples.png)
 
