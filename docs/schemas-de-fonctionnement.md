@@ -8,8 +8,6 @@ Dans cette partie nous verrons différents schéma de fonctionnement en focntion
 -**Mode ÉCONOMIQUE**  
 -**Mode MAINTENANCE**
 
-Chaque diagramme aura un commentaire sur son déroulé.
-
 ---
 
 # Vue globale — Diagramme des transitions entre modes
