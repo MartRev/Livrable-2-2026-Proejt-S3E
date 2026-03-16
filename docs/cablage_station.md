@@ -73,4 +73,5 @@ Une fois fait, vous pouvez brancher l'alimentation de l'arduino, mettre le séle
 
 ![Image manuel](../images/montage-complet.png)
 
-
+Une fois fait, vous pouvez installer Arduino IDE, télécharger les bibliothèques qui sont en "include" au début du porgramme, compiler et téléverser.
+Laissez alors un peu de tmeps à la station pour démarrer, et vous pourrez alors observer beacoup d'informations sur votre environnement.
